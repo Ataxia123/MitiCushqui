@@ -10,7 +10,7 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
     const interimToken = [vbtcAddr, wbtcaddr, ethTokenAddr,wFtmAddr]
 
-    const wBTCOracle = await deployments.get("wBTCPeggeOracle")
+    const wBTCOracle = await deployments.get("wBTCPegOracle")
     const ETHOracle = await deployments.get("ETHOracle")
     const FTMOracle = await deployments.get("FTMOracle")
     const USCOracle = await deployments.get("USDCoracle") 
@@ -69,5 +69,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["testMemberTokenOracle"]
-module.exports.dependencies = ["oneTokenFactory"]
+module.exports.tags = ["CompositeOracle"]
+module.exports.dependencies = ["oneTokenFactory","wBTCPegOracle","ETHOracle","FTMOracle","USDCoracle"]

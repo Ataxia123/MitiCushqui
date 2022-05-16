@@ -9,7 +9,7 @@ import "../../interface/IERC20Extended.sol";
  @notice Returns 1:1, scaled to 18 
  */
 
-contract ICHIPeggedOracle is OracleCommon {
+contract USDCPeggedOracle is OracleCommon {
 
     /** 
      @param oneTokenFactory_ oneToken factory to bind to

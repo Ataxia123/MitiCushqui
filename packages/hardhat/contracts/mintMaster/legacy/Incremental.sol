@@ -12,8 +12,8 @@ import "../../interface/IOracle.sol";
 
 contract Incremental is MintMasterCommon {
     
-    uint256 constant DEFAULT_RATIO = 8 * 10 ** 17; // 100%
-    uint256 constant DEFAULT_STEP_SIZE = 10 ** 15; // 10% (?)
+    uint256 constant DEFAULT_RATIO = 8 * 10 ** 17; // 80%
+    uint256 constant DEFAULT_STEP_SIZE = 0; // 10% (?)
     uint256 constant DEFAULT_MAX_ORDER_VOLUME = INFINITE;
 
     struct Parameters {

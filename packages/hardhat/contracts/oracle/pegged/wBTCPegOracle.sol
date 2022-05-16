@@ -9,7 +9,7 @@ import "../../interface/IERC20Extended.sol";
  @notice Returns 1:1, scaled to 18 
  */
 
-contract wBTCPeggeOracle is OracleCommon {
+contract wBTCPegOracle is OracleCommon {
 
     /** 
      @param oneTokenFactory_ oneToken factory to bind to

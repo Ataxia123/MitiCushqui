@@ -7,9 +7,9 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
   
     const chainId = await getChainId()
 
-    const vbtcAddr = "0x9049198f6b21acf1e050cfcf36a6879a07b0bbe4"
+    // const vbtcAddr = "0x9049198f6b21acf1e050cfcf36a6879a07b0bbe4"
 
-    const indexToken = "0x04068da6c83afcfa0e13ba15a6696662335d5b75" // USDC
+    // const indexToken = "0x04068da6c83afcfa0e13ba15a6696662335d5b75" // USDC
 
     const moduleType = {
         version: 0,
@@ -28,10 +28,13 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
     if (chainId != 1) { //don't deploy to mainnet
         const
-            collateralToken = indexToken // USDC
-            memberToken = vbtcAddr// Should be VBTC
-            collateralOracle = await deployments.get("ICHIPeggedOracle")// should be USDC Oracle
-            memberOracle = await deployments.get("vBTCCompositeOracle")// should be VBTC Oracle
+            //collateralToken = indexToken // USDC
+            //memberToken = vbtcAddr// Should be VBTC
+            collateralToken = await deployments.get("Token6")//testing
+            memberToken = await deployments.get("Token18")//testing
+            
+            collateralOracle = await deployments.get("USDCPeggedOracle")// should be USDC Oracle
+            memberOracle = await deployments.get("wBTCPegOracle")// change to composite on mainnet
             factory = await deployments.get("OneTokenFactory")
             Admin = await ethers.getContractFactory("OneTokenFactory")
             admin = Admin.attach(factory.address)
@@ -56,8 +59,8 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
                 controllerNull.address,
                 mintMasterIncremental.address,
                 collateralOracle.address,
-                memberToken.address,
-                collateralToken.address
+                memberToken.address,//remove .addr on mmainnet
+                collateralToken.address //remove .addr on mmainnet
             )
 
             let oneTokenAddress = await admin.oneTokenAtIndex(await admin.oneTokenCount() - 1)
@@ -72,4 +75,4 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 }
 
 module.exports.tags = ["testOneToken","testToken"]
-module.exports.dependencies = ["oneTokenFactory","nullController","mintMasterIncremental","testTokens","testMemberTokenOracle","testCollateralTokenOracle"]
+module.exports.dependencies = ["testTokens","oneTokenFactory","nullController","mintMasterIncremental","CompositeOracle","USDCPeggedOracle"]
