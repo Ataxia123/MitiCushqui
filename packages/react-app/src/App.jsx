@@ -290,7 +290,7 @@ function App(props) {
             */}
 
           <Contract
-            name="vBTCOracle"
+            name="vBTCCompositeOracle"
             price={price}
             signer={userSigner}
             provider={localProvider}

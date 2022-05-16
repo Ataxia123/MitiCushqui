@@ -44,9 +44,8 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
                 constructorArguments: [
                     factory.address,
                     uniSwapFactory,
-                    indexTokenETH,
-                    name,
-                    collateralToken
+                    collateralToken,
+                    rate
                 ],
             })
         }
