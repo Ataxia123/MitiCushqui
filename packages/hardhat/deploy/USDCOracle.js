@@ -19,7 +19,7 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
     }
 
     const 
-        name = "wBTC Oracle"
+        name = "USDC Oracle"
         url = "hhtps://strudel.finance"
 
     if (chainId != 1) { //don't deploy to mainnet
@@ -56,5 +56,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["testMemberTokenOracle","testToken"]
-module.exports.dependencies = ["testTokens","oneTokenFactory"]
+module.exports.tags = ["testMemberTokenOracle"]
+module.exports.dependencies = ["oneTokenFactory"]

@@ -7,6 +7,10 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
   
     const chainId = await getChainId()
 
+    const vbtcAddr = "0x9049198f6b21acf1e050cfcf36a6879a07b0bbe4"
+
+    const indexToken = "0x04068da6c83afcfa0e13ba15a6696662335d5b75" // USDC
+
     const moduleType = {
         version: 0,
         controller: 1,
@@ -24,10 +28,10 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
     if (chainId != 1) { //don't deploy to mainnet
         const
-            collateralToken = await deployments.get("Token6")
-            memberToken = await deployments.get("Token18")
-            collateralOracle = await deployments.get("ICHIPeggedOracle")
-            memberOracle = await deployments.get("TestOracle")
+            collateralToken = indexToken // USDC
+            memberToken = vbtcAddr// Should be VBTC
+            collateralOracle = await deployments.get("ICHIPeggedOracle")// should be USDC Oracle
+            memberOracle = await deployments.get("vBTCCompositeOracle")// should be VBTC Oracle
             factory = await deployments.get("OneTokenFactory")
             Admin = await ethers.getContractFactory("OneTokenFactory")
             admin = Admin.attach(factory.address)

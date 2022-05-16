@@ -53,10 +53,10 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
                 address: oracle.address,
                 constructorArguments: [
                     factory.address,
-                    uniSwapFactory,
-                    indexTokenETH,
-                    name,
-                    collateralToken
+                    description,
+                    indexToken,
+                    interimToken,
+                    oracleList
                 ],
             })
         }
@@ -69,5 +69,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["testMemberTokenOracle","testToken"]
-module.exports.dependencies = ["testTokens","oneTokenFactory"]
+module.exports.tags = ["testMemberTokenOracle"]
+module.exports.dependencies = ["oneTokenFactory"]

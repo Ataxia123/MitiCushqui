@@ -5,6 +5,8 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
   
     const chainId = await getChainId()
 
+    const usdcaddr = "0x04068da6c83afcfa0e13ba15a6696662335d5b75"
+
     const moduleType = {
         version: 0,
         controller: 1,
@@ -20,7 +22,7 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
     if (chainId != 1) { //don't deploy to mainnet
         const 
-            collateralToken = await deployments.get("Token6")
+            collateralToken = usdcaddr
             factory = await deployments.get("OneTokenFactory")
             Admin = await ethers.getContractFactory("OneTokenFactory")
             admin = Admin.attach(factory.address)

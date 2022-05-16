@@ -5,6 +5,8 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
   
     const chainId = await getChainId()
 
+    const wbtcaddr = "0x321162Cd933E2Be498Cd2267a90534A804051b11"
+
     const moduleType = {
         version: 0,
         controller: 1,
@@ -20,12 +22,12 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
     if (chainId != 1) { //don't deploy to mainnet
         const
-            memberToken = await deployments.get("Token18")
+            memberToken = wbtcaddr
             factory = await deployments.get("OneTokenFactory")
             Admin = await ethers.getContractFactory("OneTokenFactory")
             admin = Admin.attach(factory.address)
 
-        const oracle = await deploy("TestOracle", {
+        const oracle = await deploy("wBTCPeggeOracle", {
             from: deployer,
             args: [factory.address, name, memberToken.address],
             log: true
@@ -50,5 +52,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["testMemberTokenOracle","testToken"]
-module.exports.dependencies = ["testTokens","oneTokenFactory"]
+module.exports.tags = ["testMemberTokenOracle"]
+module.exports.dependencies = ["oneTokenFactory"]
