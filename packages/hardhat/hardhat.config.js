@@ -12,6 +12,7 @@ require("hardhat-abi-exporter");
 
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
+require("@nomiclabs/hardhat-truffle5");
 
 const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 

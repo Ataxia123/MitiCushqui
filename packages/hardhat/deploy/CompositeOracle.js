@@ -70,4 +70,4 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 }
 
 module.exports.tags = ["CompositeOracle"]
-module.exports.dependencies = ["oneTokenFactory","wBTCPegOracle","ETthOracle","ftmOracle","USDCoracle"]
+module.exports.dependencies = ["oneTokenFactory","wBTCPegOracle","EthOracle","ftmgitOracle","USDCoracle"]

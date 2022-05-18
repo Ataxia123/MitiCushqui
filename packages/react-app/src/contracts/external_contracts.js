@@ -796,6 +796,14 @@ module.exports = {
         address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
         abi: ERC20ABI,
       },
+      vBTC: {
+        address: "0x9049198f6b21ACf1E050cFCf36A6879a07b0bBe4",
+        abi: ERC20ABI,
+      },
+      USDC: {
+        address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+        abi: ERC20ABI,
+      },
     },
   },
 };

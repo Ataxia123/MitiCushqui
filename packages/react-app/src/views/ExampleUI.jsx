@@ -24,8 +24,8 @@ export default function ExampleUI({
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
       <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
-        <h2>Example UI:</h2>
-        <h4>purpose: {purpose}</h4>
+        <h2>MintPage:</h2>
+        <h4>OneTokenContract = </h4>
         <Divider />
         <div style={{ margin: 8 }}>
           <Input

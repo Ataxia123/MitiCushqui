@@ -162,12 +162,15 @@ function App(props) {
   });
 
   // Then read your DAI balance like:
-  const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [
-    "0x34aA3F359A9D614239015126635CE7732c18fDF3",
-  ]);
-
+  const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [address]);
+  const myMainnetUSDCBalance = useContractReader(readContracts, "Token18", "balanceOf", [address]);
+  //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
+
+  //const OneToken = useContractReader(readContracts, "OneTokenFactory", "oneTokenAtIndex", [oneTokenIndex]);
+
+  // Load MitiCushqui deployment from address
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -198,7 +201,15 @@ function App(props) {
       console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
       console.log("📝 readContracts", readContracts);
       console.log("🌍 DAI contract on mainnet:", mainnetContracts);
-      console.log("💵 yourMainnetDAIBalance", myMainnetDAIBalance);
+      console.log(
+        "💵 yourMainnetDAIBalance",
+        myMainnetDAIBalance ? ethers.utils.formatEther(myMainnetDAIBalance) : "...",
+      );
+      console.log(
+        "💵 yourMainnetUSDCBalance",
+        myMainnetUSDCBalance ? ethers.utils.formatEther(myMainnetUSDCBalance) : "...",
+      );
+      //console.log("oneTokenIndex", oneTokenIndex);
       console.log("🔐 writeContracts", writeContracts);
     }
   }, [
@@ -212,6 +223,9 @@ function App(props) {
     mainnetContracts,
     localChainId,
     myMainnetDAIBalance,
+    myMainnetUSDCBalance,
+    //myMainnetvBTCBalance,
+    //oneTokenIndex,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
@@ -248,6 +262,7 @@ function App(props) {
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
       <Header />
+      MitiCushqui
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
@@ -276,11 +291,16 @@ function App(props) {
           <Link to="/subgraph">Subgraph</Link>
         </Menu.Item>
       </Menu>
-
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
+          <Home
+            yourLocalBalance={yourLocalBalance}
+            readContracts={readContracts}
+            myMainnetDAIBalance={myMainnetDAIBalance}
+            //myMainnetvBTCBalance={myMainnetvBTCBalance}
+            myMainnetUSDCBalance={myMainnetUSDCBalance}
+          />
         </Route>
         <Route exact path="/debug">
           {/*
@@ -290,7 +310,7 @@ function App(props) {
             */}
 
           <Contract
-            name="vBTCCompositeOracle"
+            name="MitiCushqui"
             price={price}
             signer={userSigner}
             provider={localProvider}
@@ -352,9 +372,7 @@ function App(props) {
           />
         </Route>
       </Switch>
-
       <ThemeSwitch />
-
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
       <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
         <div style={{ display: "flex", flex: 1, alignItems: "center" }}>
@@ -384,7 +402,6 @@ function App(props) {
           <FaucetHint localProvider={localProvider} targetNetwork={targetNetwork} address={address} />
         )}
       </div>
-
       {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
       <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
         <Row align="middle" gutter={[4, 4]}>

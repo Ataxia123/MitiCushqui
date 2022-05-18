@@ -21,10 +21,10 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
     }
 
     const 
-        name = "OneToken Instance"
+        name = "MitiCushqui"
         url = "ichi.org"
-        symbol = "OTI",
-        versionName = "OneTokenV1"
+        symbol = "M",
+        versionName = "MitiCushquiV1"
 
     if (chainId != 1) { //don't deploy to mainnet
         const
@@ -66,7 +66,7 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
             let oneTokenAddress = await admin.oneTokenAtIndex(await admin.oneTokenCount() - 1)
 
             console.log("*************************************************************")
-            console.log("* oneToken: "+ oneTokenAddress)
+            console.log("* MitiCushqui: "+ oneTokenAddress)
             console.log("*************************************************************")
         
     }
