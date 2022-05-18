@@ -163,7 +163,7 @@ function App(props) {
 
   // Then read your DAI balance like:
   const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [address]);
-  const myMainnetUSDCBalance = useContractReader(readContracts, "Token18", "balanceOf", [address]);
+  const myMainnetUSDCBalance = useContractReader(readContracts, "Token6", "balanceOf", [address]);
   //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
@@ -346,6 +346,7 @@ function App(props) {
             writeContracts={writeContracts}
             readContracts={readContracts}
             purpose={purpose}
+            vBTCAddress={t18}
           />
         </Route>
         <Route path="/mainnetdai">

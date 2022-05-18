@@ -6,6 +6,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { Address, Balance, Events } from "../components";
 
 export default function ExampleUI({
+  oneToken,
   purpose,
   address,
   mainnetProvider,
@@ -25,7 +26,7 @@ export default function ExampleUI({
       */}
       <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
         <h2>MintPage:</h2>
-        <h4>OneTokenContract = </h4>
+        <h4>OneTokenContract = {oneToken}</h4>
         <Divider />
         <div style={{ margin: 8 }}>
           <Input

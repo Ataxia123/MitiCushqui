@@ -16,7 +16,12 @@ function Home({ readContracts, myMainnetUSDCBalance, myMainnetDAIBalance, addres
   // you can also use hooks locally in your component of choice
   //const purpose = useContractReader(readContracts, "MitiCushqui", "balanceOf");
   const [newPurpose, setNewPurpose] = useState("loading...");
-  const ratio = useContractReader(readContracts, "MitiCushqui", "isOtherToken", [vBTCAddress]);
+  const ratio = useContractReader(readContracts, "MitiCushqui", "isCollateral", [vBTCAddress]);
+  const vBTCallowance = useContractReader(readContracts, "MitiCushqui", "isCollateral", [vBTCAddress]);
+  // check if there is allowance before calling contract
+
+  
+
   return (
     <div>
       <div>
@@ -29,7 +34,8 @@ function Home({ readContracts, myMainnetUSDCBalance, myMainnetDAIBalance, addres
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>📝</span>
         test addr: {vBTCAddress}
-        <div>Is token Member?:{ratio ? ` is true!` : " Collateral"}</div>
+        <div>Is token Collateral?:{ratio ? ` Yes!` : " Not Collateral"}</div>
+        <div>Is token Allowed?:{vBTCallowance > 0 ? `No` : "Yes"}</div>
         <Input
           onChange={e => {
             setNewPurpose(utils.parseEther(e.target.value));
@@ -37,7 +43,9 @@ function Home({ readContracts, myMainnetUSDCBalance, myMainnetDAIBalance, addres
         />
         <div>
           <Button
-            style={{ marginTop: 8 }}
+           //TODO: if disabled, make approve tx
+            disabled={vBTCallowance > 0 ? true : false}
+            style={{ marginBottom: 18 }}
             onClick={async () => {
               /* look how you call setPurpose on your contract: */
               /* notice how you pass a call back for tx updates too */
