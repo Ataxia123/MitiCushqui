@@ -167,7 +167,7 @@ function App(props) {
   //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
-  const t18 = readContracts && readContracts.Token18 && readContracts.Token18.address;
+  const t18 = readContracts && readContracts.Token6 && readContracts.Token6.address;
 
   //const OneToken = useContractReader(readContracts, "OneTokenFactory", "oneTokenAtIndex", [oneTokenIndex]);
 
@@ -305,6 +305,8 @@ function App(props) {
             myMainnetUSDCBalance={myMainnetUSDCBalance}
             address={address}
             vBTCAddress={t18}
+            writeContracts={writeContracts}
+            tx={tx}
           />
         </Route>
         <Route exact path="/debug">
