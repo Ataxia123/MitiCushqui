@@ -167,6 +167,7 @@ function App(props) {
   //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  const t18 = readContracts && readContracts.Token18 && readContracts.Token18.address;
 
   //const OneToken = useContractReader(readContracts, "OneTokenFactory", "oneTokenAtIndex", [oneTokenIndex]);
 
@@ -200,7 +201,8 @@ function App(props) {
       console.log("💵 yourLocalBalance", yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "...");
       console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
       console.log("📝 readContracts", readContracts);
-      console.log("🌍 DAI contract on mainnet:", mainnetContracts);
+      console.log("🌍 DAI contract on mainnet:", t18);
+      console.log("token18 contract on mainnet:", t18);
       console.log(
         "💵 yourMainnetDAIBalance",
         myMainnetDAIBalance ? ethers.utils.formatEther(myMainnetDAIBalance) : "...",
@@ -226,6 +228,7 @@ function App(props) {
     myMainnetUSDCBalance,
     //myMainnetvBTCBalance,
     //oneTokenIndex,
+    t18,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
@@ -300,6 +303,8 @@ function App(props) {
             myMainnetDAIBalance={myMainnetDAIBalance}
             //myMainnetvBTCBalance={myMainnetvBTCBalance}
             myMainnetUSDCBalance={myMainnetUSDCBalance}
+            address={address}
+            vBTCAddress={t18}
           />
         </Route>
         <Route exact path="/debug">
