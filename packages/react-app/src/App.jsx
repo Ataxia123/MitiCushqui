@@ -167,8 +167,12 @@ function App(props) {
   //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
-  const t18 = readContracts && readContracts.Token6 && readContracts.Token6.address;
 
+  // test tokens, replace with vBTC, DAI, USDC, etc.
+  const t6 = readContracts && readContracts.Token6 && readContracts.Token6.address;
+  const t9 = readContracts && readContracts.Token9 && readContracts.Token9.address;
+  const t18 = readContracts && readContracts.Token18 && readContracts.Token18.address;
+  const mitiAddr = readContracts && readContracts.MitiCushqui && readContracts.MitiCushqui.address;
   //const OneToken = useContractReader(readContracts, "OneTokenFactory", "oneTokenAtIndex", [oneTokenIndex]);
 
   // Load MitiCushqui deployment from address
@@ -229,6 +233,8 @@ function App(props) {
     //myMainnetvBTCBalance,
     //oneTokenIndex,
     t18,
+    t6,
+    t9,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
@@ -305,6 +311,8 @@ function App(props) {
             myMainnetUSDCBalance={myMainnetUSDCBalance}
             address={address}
             vBTCAddress={t18}
+            USDCAddress={t6}
+            mitiAddr={mitiAddr}
             writeContracts={writeContracts}
             tx={tx}
           />
@@ -317,7 +325,7 @@ function App(props) {
             */}
 
           <Contract
-            name="MitiCushqui"
+            name="Token9"
             price={price}
             signer={userSigner}
             provider={localProvider}

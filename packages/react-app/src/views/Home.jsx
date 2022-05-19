@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { utils } from "ethers";
 import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
+import { ApolloProvider } from "@apollo/client";
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
@@ -12,65 +13,41 @@ import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switc
  * @returns react component
  **/
 
-function Home({ readContracts, myMainnetUSDCBalance, myMainnetDAIBalance, address, vBTCAddress, writeContracts, tx }) {
+function Home({
+  readContracts,
+  myMainnetUSDCBalance,
+  myMainnetDAIBalance,
+  address,
+  vBTCAddress,
+  USDCAddress,
+  writeContracts,
+  tx,
+  mitiAddr,
+}) {
   // you can also use hooks locally in your component of choice
   //const purpose = useContractReader(readContracts, "MitiCushqui", "balanceOf");
   const [newPurpose, setNewPurpose] = useState("loading...");
   const ratio = useContractReader(readContracts, "MitiCushqui", "isCollateral", [vBTCAddress]);
-  const vBTCallowance = useContractReader(readContracts, "MitiCushqui", "isCollateral", [vBTCAddress]);
+  const vBTCallowance = useContractReader(readContracts, "Token18", "allowance", [address, mitiAddr]);
+  console.log("🤗 vBTCallowance:", vBTCallowance);
+  const USDCAllowance = useContractReader(readContracts, "Token9", "allowance", [address, vBTCAddress]);
   // check if there is allowance before calling contract
-
-  
 
   return (
     <div>
       <div>
         <h1>This is the MitiMinter</h1>
       </div>
-      <div>deposit vBTC & USDC to mint $M</div>
-      <div>redeem $M for $USDC</div>
-      <div>Orkan DAO manages $M liquidity and is offering bonds here:</div>
-      <div> https://y.at/🌪🌪👀</div>
+      <h2>Deposit vBTC & USDC to mint $M</h2>
+      <h2>Redeem $M for $USDC</h2>
+      <h2>Orkan DAO manages $M liquidity and is offering bonds here:</h2>
+      <h2> https://y.at/🌪🌪👀</h2>
       <div style={{ margin: 32 }}>
         <span style={{ marginRight: 8 }}>📝</span>
         test addr: {vBTCAddress}
         <div>Is token Collateral?:{ratio ? ` Yes!` : " Not Collateral"}</div>
-        <div>Is token Allowed?:{vBTCallowance > 0 ? `No` : "Yes"}</div>
-        <Input
-          onChange={e => {
-            setNewPurpose(utils.parseEther(e.target.value));
-          }}
-        />
-        <div>
-          <Button
-           //TODO: if disabled, make approve tx
-            disabled={vBTCallowance > 0 ? true : false}
-            style={{ marginBottom: 18 }}
-            onClick={async () => {
-              /* look how you call setPurpose on your contract: */
-              /* notice how you pass a call back for tx updates too */
-              const result = tx(writeContracts.MitiCushqui.mint(vBTCAddress, newPurpose), update => {
-                console.log("📡 Transaction Update:", update);
-                if (update && (update.status === "confirmed" || update.status === 1)) {
-                  console.log(" 🍾 Transaction " + update.hash + " finished!");
-                  console.log(
-                    " ⛽️ " +
-                      update.gasUsed +
-                      "/" +
-                      (update.gasLimit || update.gas) +
-                      " @ " +
-                      parseFloat(update.gasPrice) / 1000000000 +
-                      " gwei",
-                  );
-                }
-              });
-              console.log("awaiting metamask/web3 confirm result...", result);
-              console.log(await result);
-            }}
-          >
-            mint stuff
-          </Button>
-        </div>
+        <div>Is token Allowed?:{USDCAllowance > 0 ? `No` : "Yes"}</div>
+        <div>Allowance:{vBTCallowance ? utils.formatEther(vBTCallowance) : "..."}</div>
         <Input
           onChange={e => {
             setNewPurpose(utils.parseEther(e.target.value));
@@ -82,26 +59,108 @@ function Home({ readContracts, myMainnetUSDCBalance, myMainnetDAIBalance, addres
             onClick={async () => {
               /* look how you call setPurpose on your contract: */
               /* notice how you pass a call back for tx updates too */
-              const result = tx(writeContracts.MitiCushqui.redeem(vBTCAddress, newPurpose), update => {
-                console.log("📡 Transaction Update:", update);
-                if (update && (update.status === "confirmed" || update.status === 1)) {
-                  console.log(" 🍾 Transaction " + update.hash + " finished!");
-                  console.log(
-                    " ⛽️ " +
-                      update.gasUsed +
-                      "/" +
-                      (update.gasLimit || update.gas) +
-                      " @ " +
-                      parseFloat(update.gasPrice) / 1000000000 +
-                      " gwei",
-                  );
-                }
-              });
-              console.log("awaiting metamask/web3 confirm result...", result);
-              console.log(await result);
+              if (utils.formatEther(vBTCallowance) >= utils.formatEther(newPurpose)) {
+                // if there is no allowance, approve first
+                // tx settings
+                const result = tx(writeContracts.MitiCushqui.mint(USDCAddress, newPurpose), update => {
+                  // logging tx updates
+                  console.log("📡 Transaction Update:", update);
+                  if (update && (update.status === "confirmed" || update.status === 1)) {
+                    console.log(" 🍾 Transaction " + update.hash + " finished!");
+                    console.log(
+                      " ⛽️ " +
+                        update.gasUsed +
+                        "/" +
+                        (update.gasLimit || update.gas) +
+                        " @ " +
+                        parseFloat(update.gasPrice) / 1000000000 +
+                        " gwei",
+                    );
+                  }
+                });
+                console.log("awaiting metamask/web3 confirm result...", result);
+                console.log(await result);
+                return;
+              } else {
+                const result = tx(writeContracts.Token18.approve(mitiAddr, newPurpose), update => {
+                  console.log("📡 Transaction Update:", update);
+                  if (update && (update.status === "confirmed" || update.status === 1)) {
+                    console.log(" 🍾 Transaction " + update.hash + " finished!");
+                    console.log(
+                      " ⛽️ " +
+                        update.gasUsed +
+                        "/" +
+                        (update.gasLimit || update.gas) +
+                        " @ " +
+                        parseFloat(update.gasPrice) / 1000000000 +
+                        " gwei",
+                    );
+                  }
+                });
+                console.log("awaiting metamask/web3 confirm result...", result);
+                console.log(await result);
+              }
             }}
           >
-            burn stuff
+            Mint Cushqui{" "}
+          </Button>
+        </div>
+        <Input
+          style={{ marginTop: 80 }}
+          onChange={e => {
+            setNewPurpose(utils.parseEther(e.target.value));
+          }}
+        />
+        <div>
+          <Button
+            style={{ marginTop: 8 }}
+            onClick={async () => {
+              /* look how you call setPurpose on your contract: */
+              /* notice how you pass a call back for tx updates too */
+              if (utils.formatEther(vBTCallowance) > newPurpose) {
+                // if there is no allowance, approve first
+                // tx settings
+                const result = tx(writeContracts.MitiCushqui.redeem(vBTCAddress, newPurpose), update => {
+                  // logging tx updates
+                  console.log("📡 Transaction Update:", update);
+                  if (update && (update.status === "confirmed" || update.status === 1)) {
+                    console.log(" 🍾 Transaction " + update.hash + " finished!");
+                    console.log(
+                      " ⛽️ " +
+                        update.gasUsed +
+                        "/" +
+                        (update.gasLimit || update.gas) +
+                        " @ " +
+                        parseFloat(update.gasPrice) / 1000000000 +
+                        " gwei",
+                    );
+                  }
+                });
+                console.log("awaiting metamask/web3 confirm result...", result);
+                console.log(await result);
+                return;
+              } else {
+                const result = tx(writeContracts.MitiCushqui.approve(vBTCAddress, newPurpose), update => {
+                  console.log("📡 Transaction Update:", update);
+                  if (update && (update.status === "confirmed" || update.status === 1)) {
+                    console.log(" 🍾 Transaction " + update.hash + " finished!");
+                    console.log(
+                      " ⛽️ " +
+                        update.gasUsed +
+                        "/" +
+                        (update.gasLimit || update.gas) +
+                        " @ " +
+                        parseFloat(update.gasPrice) / 1000000000 +
+                        " gwei",
+                    );
+                  }
+                });
+                console.log("awaiting metamask/web3 confirm result...", result);
+                console.log(await result);
+              }
+            }}
+          >
+            Redeem Cushqui{" "}
           </Button>
         </div>
         <span
