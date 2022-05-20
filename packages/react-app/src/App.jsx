@@ -29,7 +29,7 @@ import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
-import { Home, ExampleUI, Hints, Subgraph } from "./views";
+import { Home, Dashboard, Subgraph } from "./views";
 import { useStaticJsonRPC } from "./hooks";
 
 const { ethers } = require("ethers");
@@ -271,7 +271,7 @@ function App(props) {
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
       <Header />
-      MitiCushqui
+      <h1> MitiCushqui </h1>
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
@@ -284,17 +284,11 @@ function App(props) {
         <Menu.Item key="/">
           <Link to="/">App Home</Link>
         </Menu.Item>
+        <Menu.Item key="/dashboard">
+          <Link to="/dashboard">Dashboard</Link>
+        </Menu.Item>
         <Menu.Item key="/debug">
           <Link to="/debug">Debug Contracts</Link>
-        </Menu.Item>
-        <Menu.Item key="/hints">
-          <Link to="/hints">Hints</Link>
-        </Menu.Item>
-        <Menu.Item key="/exampleui">
-          <Link to="/exampleui">ExampleUI</Link>
-        </Menu.Item>
-        <Menu.Item key="/mainnetdai">
-          <Link to="/mainnetdai">Mainnet DAI</Link>
         </Menu.Item>
         <Menu.Item key="/subgraph">
           <Link to="/subgraph">Subgraph</Link>
@@ -304,6 +298,24 @@ function App(props) {
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
           <Home
+            yourLocalBalance={yourLocalBalance}
+            readContracts={readContracts}
+            myMainnetDAIBalance={myMainnetUSDCBalance}
+            //myMainnetvBTCBalance={myMainnetvBTCBalance}
+            myMainnetUSDCBalance={myMainnetUSDCBalance}
+            address={address}
+            vBTCAddress={t18}
+            USDCAddress={t6}
+            mitiAddr={mitiAddr}
+            writeContracts={writeContracts}
+            tx={tx}
+            myMainnetvBTCBalance={myMainnetvBTCBalance}
+            myMainnetMitiBalance={myMainnetMitiBalance}
+          />
+        </Route>
+        <Route exact path="/dashboard">
+          {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
+          <Dashboard
             yourLocalBalance={yourLocalBalance}
             readContracts={readContracts}
             myMainnetDAIBalance={myMainnetUSDCBalance}
@@ -335,51 +347,6 @@ function App(props) {
             blockExplorer={blockExplorer}
             contractConfig={contractConfig}
           />
-        </Route>
-        <Route path="/hints">
-          <Hints
-            address={address}
-            yourLocalBalance={yourLocalBalance}
-            mainnetProvider={mainnetProvider}
-            price={price}
-          />
-        </Route>
-        <Route path="/exampleui">
-          <ExampleUI
-            address={address}
-            userSigner={userSigner}
-            mainnetProvider={mainnetProvider}
-            localProvider={localProvider}
-            yourLocalBalance={yourLocalBalance}
-            price={price}
-            tx={tx}
-            writeContracts={writeContracts}
-            readContracts={readContracts}
-            purpose={purpose}
-            vBTCAddress={t18}
-          />
-        </Route>
-        <Route path="/mainnetdai">
-          <Contract
-            name="DAI"
-            customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.DAI}
-            signer={userSigner}
-            provider={mainnetProvider}
-            address={address}
-            blockExplorer="https://etherscan.io/"
-            contractConfig={contractConfig}
-            chainId={1}
-          />
-          {/*
-            <Contract
-              name="UNI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.UNI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-            />
-            */}
         </Route>
         <Route path="/subgraph">
           <Subgraph

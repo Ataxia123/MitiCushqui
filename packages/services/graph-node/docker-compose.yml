@@ -36,3 +36,5 @@ services:
       POSTGRES_DB: graph-node
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

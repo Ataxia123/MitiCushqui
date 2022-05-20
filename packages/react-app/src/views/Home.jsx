@@ -17,7 +17,6 @@ function Home({
   readContracts,
   myMainnetUSDCBalance,
   address,
-  vBTCAddress,
   USDCAddress,
   writeContracts,
   tx,
@@ -28,11 +27,9 @@ function Home({
   // you can also use hooks locally in your component of choice
   //const purpose = useContractReader(readContracts, "MitiCushqui", "balanceOf");
   const [newPurpose, setNewPurpose] = useState("loading...");
-  const ratio = useContractReader(readContracts, "MitiCushqui", "isCollateral", [vBTCAddress]);
   const vBTCallowance = useContractReader(readContracts, "Token18", "allowance", [address, mitiAddr]);
-  console.log("🤗 vBTCallowance:", vBTCallowance);
   const USDCAllowance = useContractReader(readContracts, "Token6", "allowance", [address, mitiAddr]);
-  const mitiAllowance = useContractReader(readContracts, "MitiCushqui", "allowance", [address, mitiAddr]);
+  const approval = utils.parseEther("1000000000000000000");
   // check if there is allowance before calling contract
 
   return (
@@ -42,17 +39,13 @@ function Home({
       </div>
       <h2>Deposit vBTC & USDC to mint $M</h2>
       <h2>Redeem $M for $USDC</h2>
-      <h2>Orkan DAO manages $M liquidity and is offering bonds here:</h2>
-      <h2> https://y.at/🌪🌪👀</h2>
+      <h2>Orkan DAO manages liquidity and is offering bonds $M</h2>
+      <h2> Learn more: <a href="https://y.at/🌪🌪👀">🌪🌪👀</a></h2>
       <div style={{ margin: 32 }}>
         <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
-          <span style={{ marginRight: 8 }}>📝</span>
-          test Miti addr: {mitiAddr}
-          <div>Is token Collateral?:{ratio ? ` Yes!` : " Not Collateral"}</div>
-          <div>Is token Allowed?:{USDCAllowance === 0 ? `No` : "Yes"}</div>
-          <div>vBTCAllowance:{vBTCallowance ? utils.formatEther(vBTCallowance) : "..."}</div>
-          <div>USDCAllowance:{USDCAllowance ? utils.formatEther(USDCAllowance) : "..."}</div>
+          <span style={{ marginRight: 8 }}>📝test Miti addr: {mitiAddr}</span>
           <Input
+            style={{ marginTop: 20 }}
             onChange={e => {
               setNewPurpose(utils.parseEther(e.target.value));
             }}
@@ -63,10 +56,10 @@ function Home({
               onClick={async () => {
                 /* look how you call setPurpose on your contract: */
                 /* notice how you pass a call back for tx updates too */
-                if (utils.formatEther(vBTCallowance) < utils.formatEther(newPurpose)) {
+                if (Number(utils.formatEther(vBTCallowance)) < Number(utils.formatEther(newPurpose))) {
                   // if there is no allowance, approve first
                   // tx settings
-                  const result1 = tx(writeContracts.Token18.approve(mitiAddr, newPurpose), update => {
+                  const result1 = tx(writeContracts.Token18.approve(mitiAddr, approval), update => {
                     // logging tx updates
                     console.log("📡 Transaction Update:", update);
                     if (update && (update.status === "confirmed" || update.status === 1)) {
@@ -82,11 +75,11 @@ function Home({
                       );
                     }
                   });
-                  console.log("newPurpose:", utils.formatEther(newPurpose));
+                  console.log("Ammount:", utils.formatEther(newPurpose));
                   console.log("awaiting metamask/web3 confirm result...", result1);
                   console.log(await result1);
-                } else if (utils.formatEther(USDCAllowance) > utils.formatEther(newPurpose)) {
-                  const result2 = tx(writeContracts.Token6.approve(mitiAddr, newPurpose), update => {
+                } else if (Number(utils.formatEther(USDCAllowance)) < Number(utils.formatEther(newPurpose))) {
+                  const result2 = tx(writeContracts.Token6.approve(mitiAddr, approval), update => {
                     console.log("📡 Transaction Update:", update);
                     if (update && (update.status === "confirmed" || update.status === 1)) {
                       console.log(" 🍾 Transaction " + update.hash + " finished!");

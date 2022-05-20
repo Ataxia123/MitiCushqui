@@ -3,23 +3,21 @@ schema:
   file: ./src/schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: YourContract
+    name: OneTokenV1
     network: localhost
     source:
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-      abi: YourContract
-      startBlock: 1
+      abi: OneTokenV1
+      address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Purpose
         - Sender
       abis:
-        - name: YourContract
-          file: ./abis/localhost_YourContract.json
+        - name: OneTokenV1
+          file: ./abis/localhost_OneTokenV1.json
       eventHandlers:
-        - event: SetPurpose(address,string)
-          handler: handleSetPurpose
+        - event: Minted(indexed address,indexed address,uint256,uint256,uint256)
+          handler: empty
       file: ./src/mapping.ts
