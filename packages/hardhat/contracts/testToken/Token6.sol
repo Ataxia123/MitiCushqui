@@ -8,8 +8,8 @@ contract Token6 is ICHIERC20 {
 
     constructor() {
         initERC20("Token with 6 decimals", "Token6");
-        _mint(0x84597270F7158BBCcC285C907A70eabfB53Eb721, 10000 * 10 ** 6);
-        _setupDecimals(6);
+        _mint(0x84597270F7158BBCcC285C907A70eabfB53Eb721, 10000 * 10 ** 18);
+        _setupDecimals(18);
     }
 
 }

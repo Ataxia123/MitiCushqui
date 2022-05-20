@@ -58,5 +58,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["ftmOracle"]
+module.exports.tags = ["ftmOracle", "mainnet"]
 module.exports.dependencies = ["oneTokenFactory"]

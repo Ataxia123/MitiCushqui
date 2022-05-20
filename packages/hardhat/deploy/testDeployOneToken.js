@@ -22,11 +22,11 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
     const 
         name = "MitiCushqui"
-        url = "ichi.org"
+        url = "strudel.finance"
         symbol = "M",
         versionName = "MitiCushquiV1"
 
-    if (chainId != 1) { //don't deploy to mainnet
+    if (chainId != 1) { //don't deploy to  eth mainnet lol
         const
             //collateralToken = indexToken // USDC
             //memberToken = vbtcAddr// Should be VBTC
@@ -74,5 +74,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["testOneToken","testToken"]
-module.exports.dependencies = ["testTokens","oneTokenFactory","nullController","mintMasterIncremental","CompositeOracle","USDCPeggedOracle"]
+module.exports.tags = ["testOneToken","init"]
+module.exports.dependencies = ["oneTokenFactory","nullController","mintMasterIncremental","USDCPeggedOracle","testTokens","wBTCPegOracle"]

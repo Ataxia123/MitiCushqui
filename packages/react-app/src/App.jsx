@@ -162,8 +162,9 @@ function App(props) {
   });
 
   // Then read your DAI balance like:
-  const myMainnetDAIBalance = useContractReader(readContracts, "MitiCushqui", "balanceOf", [address]);
+  const myMainnetvBTCBalance = useContractReader(readContracts, "Token18", "balanceOf", [address]);
   const myMainnetUSDCBalance = useContractReader(readContracts, "Token6", "balanceOf", [address]);
+  const myMainnetMitiBalance = useContractReader(readContracts, "MitiCushqui", "balanceOf", [address]);
   //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
@@ -209,7 +210,7 @@ function App(props) {
       console.log("token18 contract on mainnet:", t18);
       console.log(
         "💵 yourMainnetDAIBalance",
-        myMainnetDAIBalance ? ethers.utils.formatEther(myMainnetDAIBalance) : "...",
+        myMainnetUSDCBalance ? ethers.utils.formatEther(myMainnetUSDCBalance) : "...",
       );
       console.log(
         "💵 yourMainnetUSDCBalance",
@@ -228,13 +229,12 @@ function App(props) {
     writeContracts,
     mainnetContracts,
     localChainId,
-    myMainnetDAIBalance,
     myMainnetUSDCBalance,
-    //myMainnetvBTCBalance,
-    //oneTokenIndex,
     t18,
     t6,
     t9,
+    myMainnetvBTCBalance,
+    myMainnetMitiBalance,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
@@ -306,7 +306,7 @@ function App(props) {
           <Home
             yourLocalBalance={yourLocalBalance}
             readContracts={readContracts}
-            myMainnetDAIBalance={myMainnetDAIBalance}
+            myMainnetDAIBalance={myMainnetUSDCBalance}
             //myMainnetvBTCBalance={myMainnetvBTCBalance}
             myMainnetUSDCBalance={myMainnetUSDCBalance}
             address={address}
@@ -315,6 +315,8 @@ function App(props) {
             mitiAddr={mitiAddr}
             writeContracts={writeContracts}
             tx={tx}
+            myMainnetvBTCBalance={myMainnetvBTCBalance}
+            myMainnetMitiBalance={myMainnetMitiBalance}
           />
         </Route>
         <Route exact path="/debug">
@@ -325,7 +327,7 @@ function App(props) {
             */}
 
           <Contract
-            name="Token9"
+            name="MitiCushqui"
             price={price}
             signer={userSigner}
             provider={localProvider}
