@@ -26,18 +26,10 @@ function Subgraph(props) {
 
   const EXAMPLE_GRAPHQL = `
   {
-    purposes(first: 25, orderBy: createdAt, orderDirection: desc) {
+    minters {
       id
-      purpose
-      createdAt
-      sender {
-        id
-      }
-    }
-    senders {
-      id
-      address
-      purposeCount
+  		totalMinted
+  		totalBurned
     }
   }
   `;
@@ -46,21 +38,14 @@ function Subgraph(props) {
 
   const purposeColumns = [
     {
-      title: "Purpose",
-      dataIndex: "purpose",
-      key: "purpose",
+      title: "Minters",
+      dataIndex: "totalMinted",
+      key: "totalMinted",
     },
     {
       title: "Sender",
       key: "id",
-      render: record => <Address value={record.sender.id} ensProvider={props.mainnetProvider} fontSize={16} />,
-    },
-    {
-      title: "createdAt",
-      key: "createdAt",
-      dataIndex: "createdAt",
-      render: d => new Date(d * 1000).toISOString(),
-    },
+      dataIndex: "id", },
   ];
 
   const [newPurpose, setNewPurpose] = useState("loading...");
@@ -180,7 +165,7 @@ function Subgraph(props) {
         </div>
 
         {data ? (
-          <Table dataSource={data.purposes} columns={purposeColumns} rowKey="id" />
+          <Table dataSource={data.minters} columns={purposeColumns} rowKey="id" />
         ) : (
           <Typography>{loading ? "Loading..." : deployWarning}</Typography>
         )}

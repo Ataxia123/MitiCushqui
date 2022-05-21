@@ -1,6 +1,10 @@
 version: "3"
 services:
   graph-node:
+    build:
+      context: . 
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     image: graphprotocol/graph-node:latest
     ports:
       - "8000:8000"

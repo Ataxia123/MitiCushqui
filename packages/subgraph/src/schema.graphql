@@ -1,13 +1,35 @@
-type Minted @entity {
+type Minter @entity {
   id: ID!
-  sender: Sender!
-  createdAt: BigInt!
-  transactionHash: String!
+  address: String!
+  totalMinted: BigInt!
+  totalBurned: BigInt!
 }
 
-type Sender @entity {
+type MinterCounter @entity {
   id: ID!
-  address: Bytes!
-  createdAt: BigInt!
-  purposeCount: BigInt!
+  count: Int!
 }
+
+type RedeemerCounter @entity {
+  id: ID!
+  count: Int!
+}
+
+type TotalMitiSupply @entity {
+  id: ID!
+  totalSupply: BigInt!
+  totalMinted: BigInt!
+  totalBurned: BigInt!
+  }
+
+type TotalvBTCReserves @entity {
+  id: ID!
+  totalDeposits: BigInt!
+  }
+
+type TotalUSDCReserves @entity {
+  id: ID!
+  totalSupply: BigInt!
+  totalMinted: BigInt!
+  totalBurned: BigInt!
+  }

@@ -7,17 +7,22 @@ dataSources:
     network: localhost
     source:
       abi: OneTokenV1
-      address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853"
+      address: "0xB7A5bd0345EF1Cc5E66bf61BdeC17D2461fBd968"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Sender
+        - Minter
+        - TotalMitiSupply
+        - TotalvBTCReserves
+        - TotalUSDCReserves
       abis:
         - name: OneTokenV1
           file: ./abis/localhost_OneTokenV1.json
       eventHandlers:
         - event: Minted(indexed address,indexed address,uint256,uint256,uint256)
-          handler: empty
+          handler: handleMinted
+        - event: Redeemed(indexed address,indexed address,uint256)
+          handler: handleRedeemed
       file: ./src/mapping.ts

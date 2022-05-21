@@ -71,5 +71,8 @@
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "husky": "^7.0.2",
     "web3": "^1.7.3"
+  },
+  "dependencies": {
+    "@openzeppelin/subgraphs": "^0.1.8"
   }
 }
