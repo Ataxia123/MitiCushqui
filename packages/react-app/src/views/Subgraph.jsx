@@ -26,9 +26,10 @@ function Subgraph(props) {
 
   const EXAMPLE_GRAPHQL = `
   {
-    minters {
+    totalMitiSupplies {
       id
-  		totalMinted
+  		totalSupply
+      totalMinted
   		totalBurned
     }
   }
@@ -38,14 +39,24 @@ function Subgraph(props) {
 
   const purposeColumns = [
     {
-      title: "Minters",
+      title: "totalMinted",
       dataIndex: "totalMinted",
       key: "totalMinted",
     },
     {
+      title: "totalBurned",
+      dataIndex: "totalBurned",
+      key: "totalBurned",
+    },
+    {
+      title: "totalSupply",
+      dataIndex: "totalSupply",
+      key: "totalSupply",
+    },
+    {
       title: "Sender",
       key: "id",
-      dataIndex: "id", },
+      dataIndex: "id",},
   ];
 
   const [newPurpose, setNewPurpose] = useState("loading...");
@@ -56,95 +67,7 @@ function Subgraph(props) {
 
   return (
     <>
-      <div style={{ margin: "auto", marginTop: 32 }}>
-        You will find that parsing/tracking events with the{" "}
-        <span className="highlight" style={highlight}>
-          useEventListener
-        </span>{" "}
-        hook becomes a chore for every new project.
-      </div>
-      <div style={{ margin: "auto", marginTop: 32 }}>
-        Instead, you can use{" "}
-        <a href="https://thegraph.com/docs/about/introduction" target="_blank" rel="noopener noreferrer">
-          The Graph
-        </a>{" "}
-        with 🏗 scaffold-eth (
-        <a href="https://youtu.be/T5ylzOTkn-Q" target="_blank" rel="noopener noreferrer">
-          learn more
-        </a>
-        ):
-      </div>
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>⛓️</span>
-        Make sure your local chain is running first:
-        <span className="highlight" style={highlight}>
-          yarn chain
-        </span>
-      </div>
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🚮</span>
-        Clean up previous data, if there is any:
-        <span className="highlight" style={highlight}>
-          yarn clean-graph-node
-        </span>
-      </div>
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>📡</span>
-        Spin up a local graph node by running
-        <span className="highlight" style={highlight}>
-          yarn run-graph-node
-        </span>
-        <span style={{ marginLeft: 4 }}>
-          {" "}
-          (requires{" "}
-          <a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener noreferrer">
-            {" "}
-            Docker
-          </a>
-          ){" "}
-        </span>
-      </div>
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>📝</span>
-        Create your <b>local subgraph</b> by running
-        <span className="highlight" style={highlight}>
-          yarn graph-create-local
-        </span>
-        (only required once!)
-      </div>
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🚢</span>
-        Deploy your <b>local subgraph</b> by running
-        <span className="highlight" style={highlight}>
-          yarn graph-ship-local
-        </span>
-      </div>
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🖍️</span>
-        Edit your <b>local subgraph</b> in
-        <span className="highlight" style={highlight}>
-          packages/subgraph/src
-        </span>
-        (learn more about subgraph definition{" "}
-        <a href="https://thegraph.com/docs/define-a-subgraph" target="_blank" rel="noopener noreferrer">
-          here
-        </a>
-        )
-      </div>
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🤩</span>
-        Deploy your <b>contracts and your subgraph</b> in one go by running
-        <span className="highlight" style={highlight}>
-          yarn deploy-and-graph
-        </span>
-      </div>
+      <div style={{ margin: "auto", marginTop: 32 }}></div>
 
       <div style={{ width: 780, margin: "auto", paddingBottom: 64 }}>
         <div style={{ margin: 32, textAlign: "right" }}>

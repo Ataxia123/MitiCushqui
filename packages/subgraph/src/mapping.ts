@@ -35,6 +35,7 @@ export function handleMinted(event: Minted): void {
         mitisupply.totalBurned = BigInt.fromI32(0)
     } 
     mitisupply.totalSupply = mitisupply.totalSupply + event.params.oneTokens
+    mitisupply.totalMinted = mitisupply.totalMinted + event.params.oneTokens
     mitisupply.save()
 
     let totalvBTCReserve = TotalvBTCReserve.load(event.params.sender.toHex())
@@ -86,7 +87,6 @@ export function handleRedeemed(event: Redeemed): void {
     if (mitisupply == null) {
         mitisupply = new TotalMitiSupply(event.params.sender.toHex())
         mitisupply.totalSupply = BigInt.fromI32(0)
-        mitisupply.totalMinted = BigInt.fromI32(0)
         mitisupply.totalBurned = BigInt.fromI32(0)
     } 
     mitisupply.totalSupply = mitisupply.totalSupply - event.params.amount
