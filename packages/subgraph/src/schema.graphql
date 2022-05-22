@@ -22,12 +22,12 @@ type TotalMitiSupply @entity {
   totalBurned: BigInt!
   }
 
-type TotalvBTCReserves @entity {
+type TotalvBTCReserve @entity {
   id: ID!
   totalDeposits: BigInt!
   }
 
-type TotalUSDCReserves @entity {
+type TotalUSDCReserve @entity {
   id: ID!
   totalSupply: BigInt!
   totalMinted: BigInt!
