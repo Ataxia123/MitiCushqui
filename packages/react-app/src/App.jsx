@@ -167,7 +167,6 @@ function App(props) {
   const myMainnetMitiBalance = useContractReader(readContracts, "MitiCushqui", "balanceOf", [address]);
   //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
-  const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
   // test tokens, replace with vBTC, DAI, USDC, etc.
   const t6 = readContracts && readContracts.Token6 && readContracts.Token6.address;
@@ -175,7 +174,8 @@ function App(props) {
   const t18 = readContracts && readContracts.Token18 && readContracts.Token18.address;
   const mitiAddr = readContracts && readContracts.MitiCushqui && readContracts.MitiCushqui.address;
   //const OneToken = useContractReader(readContracts, "OneTokenFactory", "oneTokenAtIndex", [oneTokenIndex]);
-
+  const r = useContractReader(readContracts, "MitiCushqui", "getMintingRatio", [t6]);
+  ;
   // Load MitiCushqui deployment from address
 
   /*
@@ -206,8 +206,9 @@ function App(props) {
       console.log("💵 yourLocalBalance", yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "...");
       console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
       console.log("📝 readContracts", readContracts);
-      console.log("🌍 DAI contract on mainnet:", t18);
-      console.log("token18 contract on mainnet:", t18);
+
+      console.log("token18 contract on mainnet:", t18 ? t18 : "...");
+      console.log("minting ratio:", r ? ethers.utils.formatEther(r[0]) : "...");
       console.log(
         "💵 yourMainnetDAIBalance",
         myMainnetUSDCBalance ? ethers.utils.formatEther(myMainnetUSDCBalance) : "...",
@@ -354,6 +355,7 @@ function App(props) {
             tx={tx}
             writeContracts={writeContracts}
             mainnetProvider={mainnetProvider}
+            rate={r ? ethers.utils.formatEther(r[0]) : "..."}
           />
         </Route>
       </Switch>
