@@ -1,271 +1,87 @@
-import { Select } from "antd";
-import React, { useState } from "react";
+import React from "react";
+import { Typography, Divider } from "antd";
 import { utils } from "ethers";
 
-import { useTokenList } from "eth-hooks/dapps/dex";
-import { Address, AddressInput } from "../components";
+const { Title, Paragraph, Text, Link } = Typography;
 
-const { Option } = Select;
-
-export default function Hints({ yourLocalBalance, mainnetProvider, price, address }) {
-  // Get a list of tokens from a tokenlist -> see tokenlists.org!
-  const [selectedToken, setSelectedToken] = useState("Pick a token!");
-  const listOfTokens = useTokenList(
-    "https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json",
-  );
-
+export default function Hints() {
   return (
-    <div>
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>👷</span>
-        Edit your <b>contract</b> in
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          packages/hardhat/contracts
-        </span>
-      </div>
+    <div style={{ marginTop: 1 }}>
+      <Typography style={{ textAlign: "left", margin: 200, fontSize: 25 }}>
+        <Title>MitiCushqui: A BTC backed Stablecoin on FTM</Title>
+        <Paragraph>
+          USD denominated Stablecoins serve a critical role in the crypto economy. They are useful as a frame of
+          reference for measuring value and are also essentially inversely correlated with every other crypto asset.
+        </Paragraph>
+        <Paragraph>
+          Having uncorrelated and inversely related assets allows users to stay in the ecosystem regardless of
+          directional bias. This is critical for the continued growth of any economy. At the end of the day, a true bear
+          market is the absence of users. However...<div style={{ marginTop: 10 }}></div>{" "}
+          <Text strong>
+            "Not everything that shines is gold... And not everything worth a dollar is a Stablecoin." -Anon
+          </Text>
+          .
+        </Paragraph>
 
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🛰</span>
-        <b>compile/deploy</b> with
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f1f1f1", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn run deploy
-        </span>
-      </div>
+        <Paragraph>
+          There are a number of stablecoins available in the market. These have distinct risk profiles which range from
+          deppeging to regulation by centralized authorities. Any stablecoin must balance these risks in order to offer
+          a unique value propositon. Furthermore, there must be incentives such as yield opportunities available for the
+          stablecoin holders in order to mantain a growing user base.
+        </Paragraph>
+        <Title level={2}>Introducing MitiCushqui</Title>
 
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🚀</span>
-        Your <b>contract artifacts</b> are automatically injected into your frontend at
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          packages/react-app/src/contracts/
-        </span>
-      </div>
+        <Paragraph>
+          The word MitiCushqui comes from the Kechwa language and means{" "}
+          <Text strong>Digital("Miti") Money("Cushqui")</Text>. MitiCushqui ($M) is a stablecoin minted by depositing
+          vBTC and USDC at a ratio determined by the protocol with a default of 20/80. Each $M is redeemable for 1 USDC
+          as long as the supply lasts. The minting ratio can be adjusted to procure sufficient collateral for
+          redemptions, while the underlying assets can be deployed in yield bearing strategies to attract more users and
+          build reserves to service redemptions if required.
+        </Paragraph>
+        <Paragraph>
+          The goal of MitiCushqui is to become a predominantly BTC backed stablecoin, while holding enough reserves to
+          service redemptions in all market conditions. Furthermore, the treasury reserve yields will be paid back to $M
+          holders - which allows users to have a more stable store of wealth to use throughout DeFi.
+        </Paragraph>
+        <Paragraph>
+          <Title level={2}>Audited Contracts</Title>
+          MitiCushqui is built using the Ichi.org codebase. This code has been previously audited and battle tested in
+          ETH mainnet and has proved to be a reliable system to create a stable pegged asset.
+        </Paragraph>
+        <Paragraph>
+          <Title level={2}>Enter the Orkan</Title>
+          Orkan.Finance will serve as the decentralized monetary authority for MitiCushqui. The Orkan will be issuing
+          bonds for $M with the goal of owning a large amount of $M in the future. The Orkan will be the largest
+          repository of $M ensuring every user has the ability to redeem their full balance at any point in time
+          regardless of market circumstances. Furthermore Orkan will create proposals for gauges and incentives to
+          provide $M/wsORK liquidity in order to provide stable yields for users
+        </Paragraph>
+        <Title level={2}>The first Crypto-Long stablecoin</Title>
+        <Paragraph>
+          The minter contract is designed to redeem $M for USDC only. As BTC appreciates in value over time the surplus
+          will be redeployed back to $M holders. Furthermore, The vBTC used to mint $M will be managed by the Orkan with
+          the objective of securing yields for $M holders in order to attract a long term user base that utilizes $M as
+          a store of value. The Minter Contract for stablecoins can use different collaterals and member tokens to make
+          backed stablecoins. We plan to use $M as the sole collateral for further stablecoins while integrating new
+          types of member tokens (Such as FUSD)which will increase demand for $M as arbitrage between different stables
+          occurs. We are excited for the new opportunities available with this structure.
+        </Paragraph>
+        <Paragraph></Paragraph>
+        <Title level={2}>vBTC Pricing</Title>
 
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🎛</span>
-        Edit your <b>frontend</b> in
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          packages/reactapp/src/App.js
-        </span>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <span style={{ marginRight: 8 }}>🔭</span>
-        explore the
-        <span
-          className="highlight"
-          style={{
-            marginLeft: 4,
-            marginRight: 4,
-            /* backgroundColor: "#f9f9f9", */
-            padding: 4,
-            borderRadius: 4,
-            fontWeight: "bolder",
-          }}
-        >
-          🖇 hooks
-        </span>
-        and
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          📦 components
-        </span>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        for example, the
-        <span
-          className="highlight"
-          style={{ margin: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          useBalance()
-        </span>{" "}
-        hook keeps track of your balance: <b>{utils.formatEther(yourLocalBalance || 0)}</b>
-      </div>
-
-      <div style={{ margin: 8 }}>
-        <div>
-          <b>useTokenList()</b> can get you an array of tokens from{" "}
-          <a href="https://tokenlists.org" target="_blank" rel="noopener noreferrer">
-            tokenlists.org!
-          </a>
-        </div>
-        <Select
-          showSearch
-          value={selectedToken}
-          onChange={value => {
-            console.log(`selected ${value}`);
-            setSelectedToken(value);
-          }}
-          filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-          optionFilterProp="children"
-        >
-          {listOfTokens.map(token => (
-            <Option key={token.address + "_" + token.symbol} value={token.symbol}>
-              {token.symbol}
-            </Option>
-          ))}
-        </Select>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        as you build your app you&apos;ll need web3 specific components like an
-        <span
-          className="highlight"
-          style={{ margin: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          {"<AddressInput/>"}
-        </span>
-        component:
-        <div style={{ width: 350, padding: 16, margin: "auto" }}>
-          <AddressInput ensProvider={mainnetProvider} />
-        </div>
-        <div>(try putting in your address, an ens address, or scanning a QR code)</div>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        this balance could be multiplied by
-        <span
-          className="highlight"
-          style={{ margin: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          price
-        </span>{" "}
-        that is loaded with the
-        <span
-          className="highlight"
-          style={{ margin: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          usePrice
-        </span>{" "}
-        hook with the current value: <b>${price}</b>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <span style={{ marginRight: 8 }}>💧</span>
-        use the <b>faucet</b> to send funds to
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          <Address address={address} minimized /> {address}
-        </span>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <span style={{ marginRight: 8 }}>📡</span>
-        deploy to a testnet or mainnet by editing
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          packages/hardhat/hardhat.config.js
-        </span>
-        and running
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f1f1f1", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn run deploy
-        </span>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <span style={{ marginRight: 8 }}>🔑</span>
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f1f1f1", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn run generate
-        </span>
-        will create a deployer account in
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          packages/hardhat
-        </span>
-        <div style={{ marginTop: 8 }}>
-          (use{" "}
-          <span
-            className="highlight"
-            style={{
-              marginLeft: 4,
-              /* backgroundColor: "#f1f1f1", */ padding: 4,
-              borderRadius: 4,
-              fontWeight: "bolder",
-            }}
-          >
-            yarn run account
-          </span>{" "}
-          to display deployer address and balance)
-        </div>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <span style={{ marginRight: 8 }}>⚙️</span>
-        build your app with
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f1f1f1", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn run build
-        </span>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <span style={{ marginRight: 8 }}>🚢</span>
-        ship it!
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f1f1f1", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn run surge
-        </span>
-        or
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f1f1f1", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn run s3
-        </span>
-        or
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f1f1f1", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn run ipfs
-        </span>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <span style={{ marginRight: 8 }}>💬</span>
-        for support, join this
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          <a target="_blank" rel="noopener noreferrer" href="https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA">
-            Telegram Chat
-          </a>
-        </span>
-      </div>
-      <div style={{ padding: 128 }}>
-        🛠 Check out your browser&apos;s developer console for more... (inspect console) 🚀
-      </div>
+        <Paragraph>
+          The initial $M oracle assumes an equivalence between vBTC and wBTC. Therefore,{" "}
+          <Text strong>
+            until vBTC peg is met stablecoins issued will be undercollateralized by up to 10% (20 % vBTC rate - with
+            current delta being .5 BTC). To remedy this the Orkan treasury will deploy additional vBTC in order to
+            overcollateralize deposits.
+          </Text>{" "}
+          We assume that market forces should quickly close the peg difference once the stablecoin is live. Further
+          Oracles will be developed once vBTC liquidity reaches adequate levels. The current setup makes it unviable to
+          arbitrarily inflate vBTC price to mint extra stablecoins.
+        </Paragraph>
+      </Typography>
     </div>
   );
 }

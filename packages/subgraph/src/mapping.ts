@@ -43,7 +43,7 @@ export function handleMinted(event: Minted): void {
         totalvBTCReserve = new TotalvBTCReserve(event.params.sender.toHex())
         totalvBTCReserve.totalDeposits = BigInt.fromI32(0)
         }
-    totalvBTCReserve.totalDeposits = totalvBTCReserve.totalDeposits + event.params.oneTokens
+    totalvBTCReserve.totalDeposits = totalvBTCReserve.totalDeposits + event.params.memberTokens
     totalvBTCReserve.save()
 
     let totalUSDCReserve = TotalUSDCReserve.load(event.params.sender.toHex())

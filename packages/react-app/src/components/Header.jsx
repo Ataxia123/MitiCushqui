@@ -6,13 +6,13 @@ import React from "react";
 export default function Header({ link, title, subTitle }) {
   return (
     <a href={link} target="_blank" rel="noopener noreferrer">
-      <PageHeader title={title} subTitle={subTitle} style={{ cursor: "pointer" }} />
+      <PageHeader  title={title} subTitle={subTitle} style={{ cursor: "pointer", fontSize: 30 }} />
     </a>
   );
 }
 
 Header.defaultProps = {
-  link: "https://github.com/austintgriffith/scaffold-eth",
-  title: "🏗 scaffold-eth",
-  subTitle: "forkable Ethereum dev stack focused on fast product iteration",
+  link: "https://github.com/Ataxia123/StableStrudel",
+  title: "MitiCushqui 🌪🌪👀",
+  subTitle: "A USD denominated stablecoin backed by vBTC",
 };

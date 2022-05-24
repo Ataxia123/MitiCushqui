@@ -37,17 +37,18 @@ function Home({
       <div>
         <h1>This is the MitiMinter</h1>
       </div>
-      <h2>Deposit vBTC & USDC to mint $M</h2>
-      <h2>Redeem $M for $USDC</h2>
-      <h2>Orkan DAO manages liquidity and is offering bonds $M</h2>
-      <h2> Learn more: <a href="https://y.at/🌪🌪👀">🌪🌪👀</a></h2>
       <div style={{ margin: 32 }}>
         <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
           <span style={{ marginRight: 8 }}>📝test Miti addr: {mitiAddr}</span>
           <Input
             style={{ marginTop: 20 }}
+            onKeyPress={event => {
+              if (!/^[+-]?\d*(?:[.,]\d*)?$/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
             onChange={e => {
-              setNewPurpose(utils.parseEther(e.target.value));
+              setNewPurpose(utils.parseEther(e.target.value === "" ? "0" : e.target.value));
             }}
           />
           <div>
@@ -121,9 +122,14 @@ function Home({
             </Button>
           </div>
           <Input
-            style={{ marginTop: 80 }}
+            style={{ marginTop: 20 }}
+            onKeyPress={event => {
+              if (!/[^[+-]?\d*(?:[.,]\d*)?$]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
             onChange={e => {
-              setNewPurpose(utils.parseEther(e.target.value));
+              setNewPurpose(utils.parseEther(e.target.value === "" ? "0" : e.target.value));
             }}
           />
           <div>

@@ -29,8 +29,10 @@ import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
-import { Home, Dashboard, Subgraph } from "./views";
+import { Hints, Home, Dashboard, Subgraph } from "./views";
 import { useStaticJsonRPC } from "./hooks";
+import { isCompositeType } from "graphql";
+import background from "./assets/banner_miti.gif";
 
 const { ethers } = require("ethers");
 /*
@@ -174,15 +176,9 @@ function App(props) {
   const t18 = readContracts && readContracts.Token18 && readContracts.Token18.address;
   const mitiAddr = readContracts && readContracts.MitiCushqui && readContracts.MitiCushqui.address;
   //const OneToken = useContractReader(readContracts, "OneTokenFactory", "oneTokenAtIndex", [oneTokenIndex]);
+
   const r = useContractReader(readContracts, "MitiCushqui", "getMintingRatio", [t6]);
-  ;
-  // Load MitiCushqui deployment from address
-
-  /*
-  const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
-  console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
-  */
-
+  const o = useContractReader(readContracts, "wBTCPegOracle", "read", [t18, ethers.utils.parseEther("1")]);
   //
   // 🧫 DEBUG 👨🏻‍🔬
   //
@@ -219,6 +215,7 @@ function App(props) {
       );
       //console.log("oneTokenIndex", oneTokenIndex);
       console.log("🔐 writeContracts", writeContracts);
+      console.log("oracle output:", o ? ethers.utils.formatEther(o[0]) : "...");
     }
   }, [
     mainnetProvider,
@@ -236,6 +233,8 @@ function App(props) {
     t9,
     myMainnetvBTCBalance,
     myMainnetMitiBalance,
+    r,
+    o,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
@@ -271,8 +270,8 @@ function App(props) {
   return (
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
-      <Header />
-      <h1> MitiCushqui </h1>
+      <Header/>
+      <h1>MitiCushqui </h1>
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
@@ -281,21 +280,42 @@ function App(props) {
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
       />
-      <Menu style={{ textAlign: "center", marginTop: 40 }} selectedKeys={[location.pathname]} mode="horizontal">
+      <Menu
+        style={{
+          marginTop: 30,
+          backgroundImage: `url(${background})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          cursor: "pointer",
+          backgroundRepeat: "no-repeat",
+          fontSize: 30,
+          textAlign: "center",
+        }}
+        selectedKeys={[location.pathname]}
+        mode="horizontal"
+      >
+        <Menu.Item key="/hints">
+          <Link to="/hints">Hints</Link>
+        </Menu.Item>
         <Menu.Item key="/">
           <Link to="/">App Home</Link>
         </Menu.Item>
-        <Menu.Item key="/dashboard">
-          <Link to="/dashboard">Dashboard</Link>
+        <Menu.Item key="/subgraph">
+          <Link to="/subgraph">Dashboard</Link>
         </Menu.Item>
         <Menu.Item key="/debug">
           <Link to="/debug">Debug Contracts</Link>
         </Menu.Item>
-        <Menu.Item key="/subgraph">
-          <Link to="/subgraph">Subgraph</Link>
-        </Menu.Item>
       </Menu>
       <Switch>
+        <Route path="/hints">
+          <Hints
+            address={address}
+            yourLocalBalance={yourLocalBalance}
+            mainnetProvider={mainnetProvider}
+            price={price}
+          />
+        </Route>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
           <Home
@@ -314,22 +334,14 @@ function App(props) {
             myMainnetMitiBalance={myMainnetMitiBalance}
           />
         </Route>
-        <Route exact path="/dashboard">
-          {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Dashboard
-            yourLocalBalance={yourLocalBalance}
-            readContracts={readContracts}
-            myMainnetDAIBalance={myMainnetUSDCBalance}
-            //myMainnetvBTCBalance={myMainnetvBTCBalance}
-            myMainnetUSDCBalance={myMainnetUSDCBalance}
-            address={address}
-            vBTCAddress={t18}
-            USDCAddress={t6}
-            mitiAddr={mitiAddr}
-            writeContracts={writeContracts}
+        <Route path="/subgraph">
+          <Subgraph
+            subgraphUri={props.subgraphUri}
             tx={tx}
-            myMainnetvBTCBalance={myMainnetvBTCBalance}
-            myMainnetMitiBalance={myMainnetMitiBalance}
+            writeContracts={writeContracts}
+            mainnetProvider={mainnetProvider}
+            rate={r ? ethers.utils.formatEther(r[0]) : "..."}
+            oracle={o ? ethers.utils.formatEther(o[0]) : "..."}
           />
         </Route>
         <Route exact path="/debug">
@@ -340,22 +352,13 @@ function App(props) {
             */}
 
           <Contract
-            name="MitiCushqui"
+            name="wBTCPegOracle"
             price={price}
             signer={userSigner}
             provider={localProvider}
             address={address}
             blockExplorer={blockExplorer}
             contractConfig={contractConfig}
-          />
-        </Route>
-        <Route path="/subgraph">
-          <Subgraph
-            subgraphUri={props.subgraphUri}
-            tx={tx}
-            writeContracts={writeContracts}
-            mainnetProvider={mainnetProvider}
-            rate={r ? ethers.utils.formatEther(r[0]) : "..."}
           />
         </Route>
       </Switch>
@@ -402,12 +405,12 @@ function App(props) {
           <Col span={8} style={{ textAlign: "center", opacity: 1 }}>
             <Button
               onClick={() => {
-                window.open("https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA");
+                window.open("https://t.me/StrudelFinanceOfficial");
               }}
               size="large"
               shape="round"
             >
-              <span style={{ marginRight: 8 }} role="img" aria-label="support">
+              <span style={{ marginRight: 8 }} role="img" aria-label="🤓✉️🤓">
                 💬
               </span>
               Support
@@ -427,6 +430,13 @@ function App(props) {
             }
           </Col>
         </Row>
+      </div>
+      <div
+        style={{
+          marginTop: 30,
+        }}
+      >
+        Made with {"<3"} by Nerds: <a href="https://y.at/🤓✉️🤓">🤓✉️🤓</a>
       </div>
     </div>
   );

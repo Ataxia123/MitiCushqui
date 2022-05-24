@@ -4,7 +4,7 @@ import "antd/dist/antd.css";
 import GraphiQL from "graphiql";
 import "graphiql/graphiql.min.css";
 import fetch from "isomorphic-fetch";
-import React, { useState } from "react";
+import React, { useState, ComponentProps } from "react";
 import { Address } from "../components";
 import { utils } from "ethers";
 import { PieChart } from "react-minimal-pie-chart";
@@ -58,6 +58,7 @@ function Subgraph(props) {
   const t = data && data.totalMitiSupplies && data.totalMitiSupplies[0] && data.totalMitiSupplies[0].totalSupply;
   const c = data && data.totalUSDCReserves && data.totalUSDCReserves[0] && data.totalUSDCReserves[0].totalSupply;
   const v = data && data.totalvBTCReserves && data.totalvBTCReserves[0] && data.totalvBTCReserves[0].totalDeposits;
+
   const purposeColumns = [
     {
       title: "Address",
@@ -75,6 +76,7 @@ function Subgraph(props) {
       key: "totalBurned",
     },
   ];
+
   const deployWarning = (
     <div style={{ marginTop: 8, padding: 8 }}>Warning: 🤔 Have you deployed your subgraph yet?</div>
   );
@@ -84,28 +86,45 @@ function Subgraph(props) {
         <h3>MitiCushqui Dashboard</h3>
       </div>
       <Row>
-        <Col span={6}>
+        <Col span={4}>
           <Statistic title="$Miti Supply" value={t ? utils.formatEther(t) : "..."} />
         </Col>
-        <Col span={6}>
+        <Col span={4}>
           {" "}
           <Statistic title="USDC Reserve Supply" value={t ? utils.formatEther(c) : "..."} />
         </Col>
-        <Col span={6}>
+        <Col span={4}>
           <Statistic title="vBTC Reserve Supply:" value={t ? utils.formatEther(v) : "..."} />
         </Col>
-        <Col span={6}>
+        <Col span={4}>
           <Statistic title="Minting Rate:" value={props.rate ? props.rate : "..."} />
+        </Col>
+        <Col span={4}>
+          <Statistic title="vBTC Orace:" value={props.oracle ? props.oracle : "..."} />
         </Col>
       </Row>
       <div style={{ margin: 32, height: 400, border: "1px solid #888888", textAlign: "left" }}>
         {" "}
         <PieChart
+          style={{
+            fontFamily: '"Nunito Sans", -apple-system, Helvetica, Arial, sans-serif',
+            fontSize: "8px",
+          }}
           data={[
-            { title: "One", value: 10, color: "#E38627" },
-            { title: "Two", value: 15, color: "#C13C37" },
-            { title: "Three", value: 20, color: "#6A2135" },
+            { title: "vBTC ", value: Number(v ? utils.formatEther(v) * props.oracle : 0), color: "#E38627" },
+            { title: "Miti ", value: Number(t ? utils.formatEther(t) : 0), color: "#41db16" },
+            { title: "USDC ", value: Number(c ? utils.formatEther(c) : 0), color: "#2030bd" },
           ]}
+          radius={PieChart.defaultProps.radius - 6}
+          lineWidth={60}
+          label={({ dataEntry }) => Math.round(dataEntry.percentage) + "% " + dataEntry.title}
+          labelPosition={100 - 60 / 2}
+          labelStyle={{
+            fill: "#000000",
+            opacity: 1,
+            pointerEvents: "none",
+            fontSize: "6px",
+          }}
         />
       </div>
 
