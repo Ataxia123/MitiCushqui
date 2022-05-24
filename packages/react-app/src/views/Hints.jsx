@@ -1,14 +1,25 @@
 import React from "react";
-import { Typography, Divider } from "antd";
+import { Typography, Divider, Tooltip } from "antd";
 import { utils } from "ethers";
+import statici from "../assets/scape-4392.png";
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 export default function Hints() {
   return (
-    <div style={{ marginTop: 1 }}>
-      <Typography style={{ textAlign: "left", margin: 200, fontSize: 25 }}>
-        <Title>MitiCushqui: A BTC backed Stablecoin on FTM</Title>
+    <div
+      style={{
+        marginTop: 1,
+      }}
+    >
+      <Typography style={{ textAlign: "left", margin: 50, marginBottom:150, fontSize: 14 }}>
+        <Title
+          level={2}
+          style={{ backgroundImage: `url(${statici})`, backgroundPosition: "center", backgroundSize: "cover" }}
+        >
+          {" "}
+          The Stablecoin Problem...
+        </Title>
         <Paragraph>
           USD denominated Stablecoins serve a critical role in the crypto economy. They are useful as a frame of
           reference for measuring value and are also essentially inversely correlated with every other crypto asset.
@@ -29,7 +40,7 @@ export default function Hints() {
           a unique value propositon. Furthermore, there must be incentives such as yield opportunities available for the
           stablecoin holders in order to mantain a growing user base.
         </Paragraph>
-        <Title level={2}>Introducing MitiCushqui</Title>
+        <Title level={2}>Introducing 🏦💰💵MitiCushqui💵💰🏦</Title>
 
         <Paragraph>
           The word MitiCushqui comes from the Kechwa language and means{" "}
@@ -50,7 +61,9 @@ export default function Hints() {
           ETH mainnet and has proved to be a reliable system to create a stable pegged asset.
         </Paragraph>
         <Paragraph>
-          <Title level={2}>Enter the Orkan</Title>
+          <Title level={2}>
+            Enter the Orkan <a href="https://y.at/🌪️🌪️👀">🌪️🌪️👀</a>
+          </Title>
           Orkan.Finance will serve as the decentralized monetary authority for MitiCushqui. The Orkan will be issuing
           bonds for $M with the goal of owning a large amount of $M in the future. The Orkan will be the largest
           repository of $M ensuring every user has the ability to redeem their full balance at any point in time
@@ -73,9 +86,11 @@ export default function Hints() {
         <Paragraph>
           The initial $M oracle assumes an equivalence between vBTC and wBTC. Therefore,{" "}
           <Text strong>
-            until vBTC peg is met stablecoins issued will be undercollateralized by up to 10% (20 % vBTC rate - with
-            current delta being .5 BTC). To remedy this the Orkan treasury will deploy additional vBTC in order to
-            overcollateralize deposits.
+            until vBTC peg is met stablecoins issued may be undercollateralized by up to 20% (20 % vBTC/BTC rate)
+            current delta). To remedy this the Orkan treasury will deploy additional vBTC in order to overcollateralize
+            deposits. Since vBTC is provably scrarce and can only be minted by burning the equivalent amount of BTC, we
+            expect this to be a temporary situation and that the Orkan will be able to maintain a stable vBTC peg for
+            both $M and $vBTC.
           </Text>{" "}
           We assume that market forces should quickly close the peg difference once the stablecoin is live. Further
           Oracles will be developed once vBTC liquidity reaches adequate levels. The current setup makes it unviable to

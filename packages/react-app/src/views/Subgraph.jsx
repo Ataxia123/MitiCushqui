@@ -112,7 +112,7 @@ function Subgraph(props) {
           }}
           data={[
             { title: "vBTC ", value: Number(v ? utils.formatEther(v) * props.oracle : 0), color: "#E38627" },
-            { title: "Miti ", value: Number(t ? utils.formatEther(t) : 0), color: "#41db16" },
+            { title: "Miti ", value: Number(t ? utils.formatEther(t) : 0), color: "#F24C4C" },
             { title: "USDC ", value: Number(c ? utils.formatEther(c) : 0), color: "#2030bd" },
           ]}
           radius={PieChart.defaultProps.radius - 6}

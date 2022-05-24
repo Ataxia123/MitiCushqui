@@ -270,8 +270,8 @@ function App(props) {
   return (
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
-      <Header/>
-      <h1>MitiCushqui </h1>
+      <Header />
+      <h1>🏦💰💵MitiCushqui💵💰🏦</h1>
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
@@ -436,7 +436,7 @@ function App(props) {
           marginTop: 30,
         }}
       >
-        Made with {"<3"} by Nerds: <a href="https://y.at/🤓✉️🤓">🤓✉️🤓</a>
+        Made with {"<3"} by At0x.eth: <a href="https://y.at/🤓✉️🤓">🤓✉️🤓</a>
       </div>
     </div>
   );
