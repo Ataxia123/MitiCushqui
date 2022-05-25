@@ -1,7 +1,7 @@
 {
     "output": "generated/MitiCushqui.",
-    "chain": "mainnet",
+    "chain": "fantom",
     "datasources": [
-      { "address": "0xB7A5bd0345EF1Cc5E66bf61BdeC17D2461fBd968", "startBlock": 11633151, "module": [ "erc20" ] }
+      { "address": "0x52c0c01738AcEf734d4d954B15d5bCE267b28f59", "startBlock": 11633151, "module": [ "erc20" ] }
     ]
   }
