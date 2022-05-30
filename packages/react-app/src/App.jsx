@@ -55,7 +55,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const initialNetwork = NETWORKS.fantom; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -96,7 +96,7 @@ function App(props) {
   if (DEBUG) console.log(`Using ${selectedNetwork} network`);
 
   // 🛰 providers
-  if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
+  if (DEBUG) console.log("📡 Connecting to Mainnet Fantom");
 
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
@@ -164,21 +164,21 @@ function App(props) {
   });
 
   // Then read your DAI balance like:
-  const myMainnetvBTCBalance = useContractReader(readContracts, "Token18", "balanceOf", [address]);
-  const myMainnetUSDCBalance = useContractReader(readContracts, "Token6", "balanceOf", [address]);
+  const myMainnetvBTCBalance = useContractReader(readContracts, "vBTC", "balanceOf", [address]);
+  const myMainnetUSDCBalance = useContractReader(readContracts, "USDC", "balanceOf", [address]);
   const myMainnetMitiBalance = useContractReader(readContracts, "MitiCushqui", "balanceOf", [address]);
   //const myMainnetvBTCBalance = useContractReader(localProvider, "Token9", "balanceOf", [address]);
   // keep track of a variable from the contract in the local React state:
 
   // test tokens, replace with vBTC, DAI, USDC, etc.
-  const t6 = readContracts && readContracts.Token6 && readContracts.Token6.address;
+  const t6 = readContracts && readContracts.USDC && readContracts.USDC.address;
   const t9 = readContracts && readContracts.Token9 && readContracts.Token9.address;
-  const t18 = readContracts && readContracts.Token18 && readContracts.Token18.address;
+  const t18 = readContracts && readContracts.vBTC && readContracts.vBTC.address;
   const mitiAddr = readContracts && readContracts.MitiCushqui && readContracts.MitiCushqui.address;
   //const OneToken = useContractReader(readContracts, "OneTokenFactory", "oneTokenAtIndex", [oneTokenIndex]);
 
   const r = useContractReader(readContracts, "MitiCushqui", "getMintingRatio", [t6]);
-  const o = useContractReader(readContracts, "wBTCPegOracle", "read", [t18, ethers.utils.parseEther("1")]);
+  const o = useContractReader(readContracts, "vBTCCompositeOracle", "read", [t18, ethers.utils.parseEther("1")]);
   //
   // 🧫 DEBUG 👨🏻‍🔬
   //

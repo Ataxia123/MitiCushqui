@@ -1,7 +1,7 @@
 module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, deployments }) {
     const { deploy } = deployments
 
-    const ethTokenAddr = "0x74b23882a30290451a17c44f4f05243b6b58c76d"
+    const ethTokenAddr = "0x321162Cd933E2Be498Cd2267a90534A804051b11"
 
     const uniSwapFactory = "0x152ee697f2e276fa89e96742e9bb9ab1f2e61be3"
   
@@ -19,7 +19,7 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
     }
 
     const 
-        name = "ETH Oracle"
+        name = "BTC Oracle"
         url = "hhtps://strudel.finance"
 
     if (chainId != 1) { //don't deploy to mainnet
@@ -36,9 +36,10 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
             log: true
         })
 
-        if (chainId != 31337) { //don't verify contract on localnet
+        if (chainId != 250) { //don't verify contract on localnet
             await hre.run("verify:verify", {
                 address: oracle.address,
+                contract: "contracts/oracle/uniswap/ETHOracle.sol:ETHOracle",
                 constructorArguments: [
                     factory.address,
                     uniSwapFactory,
@@ -48,9 +49,9 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
             })
         }
     
-        await admin.admitModule(oracle.address, moduleType.oracle, name, url, {
+        /*await admin.admitModule(oracle.address, moduleType.oracle, name, url, {
             from: deployer
-        })
+        })//*/
     }
     
 

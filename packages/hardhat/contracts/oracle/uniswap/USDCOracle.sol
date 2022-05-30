@@ -21,7 +21,7 @@ import '../../_uniswap/v2-periphery/contracts/libraries/UniswapV2Library.sol';
  NOT be registered because they are not, by definition, valid sources of USD quotes.
  */
 
-contract USDCoracle is OracleCommon {
+contract USDCOracle is OracleCommon {
     using FixedPoint for *;
     using SafeMath for uint256;
 

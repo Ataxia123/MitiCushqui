@@ -119,9 +119,9 @@ module.exports = {
     },
     fantom: {
       url: "https://rpcapi.fantom.network",
-      gasPrice: 1000000000,
+      gasPrice: 982000000000,
       accounts: {
-        mnemonic: mnemonic(),
+        mnemonic: process.env.MNEMONIC,
       },
     },
     testnetFantom: {
@@ -293,6 +293,7 @@ module.exports = {
   etherscan: {
     apiKey: {
       mainnet: "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW",
+      opera: process.env.ETHERSCAN_API_KEY
       // add other network's API key here
     },
   },

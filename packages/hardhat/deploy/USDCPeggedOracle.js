@@ -33,9 +33,10 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
             log: true
         })
 
-        if (chainId != 31337) { //don't verify contract on localnet
+        if (chainId != 250) { //don't verify contract on localnet
             await hre.run("verify:verify", {
                 address: oracle.address,
+                contract: "contracts/oracle/pegged/USDCPeggedOracle.sol:USDCPeggedOracle",
                 constructorArguments: [
                     factory.address,
                     name,
@@ -44,9 +45,9 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
             })
         }
     
-        await admin.admitModule(oracle.address, moduleType.oracle, name, url, {
+        /*await admin.admitModule(oracle.address, moduleType.oracle, name, url, {
             from: deployer
-        })
+        })/**/ 
     }
     
 

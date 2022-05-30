@@ -1,13 +1,11 @@
 module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, deployments }) {
     const { deploy } = deployments
-
-    const usdcaddr = "0x04068da6c83afcfa0e13ba15a6696662335d5b75"
-
-    const uniSwapFactory = "0x152ee697f2e276fa89e96742e9bb9ab1f2e61be3"
   
     const { deployer, dev } = await getNamedAccounts()
   
     const chainId = await getChainId()
+
+    const wbtcaddr = "0x9049198f6b21acf1e050cfcf36a6879a07b0bbe4"
 
     const moduleType = {
         version: 0,
@@ -19,43 +17,41 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
     }
 
     const 
-        name = "USDC Oracle"
-        url = "hhtps://strudel.finance"
+        name = "vBTC Pegged Oracle"
+        url = "strudel.finance"
 
     if (chainId != 1) { //don't deploy to mainnet
-        const 
-            collateralToken = usdcaddr //change to wBTC
+        const
+            memberToken = wbtcaddr
             factory = await deployments.get("OneTokenFactory")
             Admin = await ethers.getContractFactory("OneTokenFactory")
             admin = Admin.attach(factory.address)
-            rate = 1000
 
-        const oracle = await deploy("USDCOracle", { // wBTC:DAI
+        const oracle = await deploy("vBTCPegOracle", {
             from: deployer,
-            args: [factory.address, uniSwapFactory, collateralToken, rate],
+            args: [factory.address, name, memberToken],
             log: true
         })
 
         if (chainId != 250) { //don't verify contract on localnet
             await hre.run("verify:verify", {
                 address: oracle.address,
-                contract: "contracts/oracle/uniswap/USDCOracle.sol:USDCOracle",
+                contract: "contracts/oracle/pegged/vBTCPegOracle.sol:vBTCPegOracle",
                 constructorArguments: [
                     factory.address,
-                    uniSwapFactory,
-                    collateralToken,
-                    rate
+                    name,
+                    memberToken
                 ],
             })
         }
     
         /*await admin.admitModule(oracle.address, moduleType.oracle, name, url, {
             from: deployer
-        })//*/
+        })   //*/ 
     }
     
 
 }
 
-module.exports.tags = ["USDCOracle", "mainnet"]
+module.exports.tags = ["vBTCPegOracle", "init"]
 module.exports.dependencies = ["oneTokenFactory"]

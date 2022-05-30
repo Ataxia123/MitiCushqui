@@ -1,9 +1,20 @@
 module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, deployments }) {
     const { deploy } = deployments
 
-    const usdcaddr = "0x04068da6c83afcfa0e13ba15a6696662335d5b75"
-
+    const vbtcAddr = "0x9049198f6b21acf1e050cfcf36a6879a07b0bbe4"
+    const wbtcaddr = "0x321162Cd933E2Be498Cd2267a90534A804051b11"
+    const ethTokenAddr = "0x74b23882a30290451a17c44f4f05243b6b58c76d"
+    const wFtmAddr = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83"
     const uniSwapFactory = "0x152ee697f2e276fa89e96742e9bb9ab1f2e61be3"
+    const USDC = "0x04068da6c83afcfa0e13ba15a6696662335d5b75"
+    const indexToken = vbtcAddr // USDC
+
+    const interimToken = [vbtcAddr]
+
+    const wBTCOracle = await deployments.get("wBTCPegOracle")
+    const  vBTCOracle = await deployments.get("vBTCPegOracle")
+
+    const oracleList = [vBTCOracle.address]
   
     const { deployer, dev } = await getNamedAccounts()
   
@@ -19,32 +30,33 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
     }
 
     const 
-        name = "USDC Oracle"
+        name = "Decimal Oracle"
         url = "hhtps://strudel.finance"
 
     if (chainId != 1) { //don't deploy to mainnet
         const 
-            collateralToken = usdcaddr //change to wBTC
+         //change to wBTC
             factory = await deployments.get("OneTokenFactory")
             Admin = await ethers.getContractFactory("OneTokenFactory")
             admin = Admin.attach(factory.address)
-            rate = 1000
+            description = "Decimal Oracle"
 
-        const oracle = await deploy("USDCOracle", { // wBTC:DAI
+        const oracle = await deploy("DecimalOracle", { // vBTC:wBTC:ETH:USDC
             from: deployer,
-            args: [factory.address, uniSwapFactory, collateralToken, rate],
+            args: [factory.address, description, indexToken, interimToken, oracleList],
             log: true
         })
 
         if (chainId != 250) { //don't verify contract on localnet
             await hre.run("verify:verify", {
                 address: oracle.address,
-                contract: "contracts/oracle/uniswap/USDCOracle.sol:USDCOracle",
+                contract: "contracts/oracle/composite/vCompositeOracleB.sol:DecimalOracle",
                 constructorArguments: [
                     factory.address,
-                    uniSwapFactory,
-                    collateralToken,
-                    rate
+                    description,
+                    indexToken,
+                    interimToken,
+                    oracleList
                 ],
             })
         }
@@ -57,5 +69,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["USDCOracle", "mainnet"]
-module.exports.dependencies = ["oneTokenFactory"]
+module.exports.tags = ["vCompositeOracleB","mainnet"]
+module.exports.dependencies = ["oneTokenFactory","wBTCPegOracle","vBTCPegOracle"]

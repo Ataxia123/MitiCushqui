@@ -27,8 +27,8 @@ function Home({
   // you can also use hooks locally in your component of choice
   //const purpose = useContractReader(readContracts, "MitiCushqui", "balanceOf");
   const [newPurpose, setNewPurpose] = useState("loading...");
-  const vBTCallowance = useContractReader(readContracts, "Token18", "allowance", [address, mitiAddr]);
-  const USDCAllowance = useContractReader(readContracts, "Token6", "allowance", [address, mitiAddr]);
+  const vBTCallowance = useContractReader(readContracts, "vBTC", "allowance", [address, mitiAddr]);
+  const USDCAllowance = useContractReader(readContracts, "USDC", "allowance", [address, mitiAddr]);
   const approval = utils.parseEther("1000000000000000000");
   // check if there is allowance before calling contract
 
@@ -60,7 +60,7 @@ function Home({
                 if (Number(utils.formatEther(vBTCallowance)) < Number(utils.formatEther(newPurpose))) {
                   // if there is no allowance, approve first
                   // tx settings
-                  const result1 = tx(writeContracts.Token18.approve(mitiAddr, approval), update => {
+                  const result1 = tx(writeContracts.vBTC.approve(mitiAddr, approval), update => {
                     // logging tx updates
                     console.log("📡 Transaction Update:", update);
                     if (update && (update.status === "confirmed" || update.status === 1)) {
@@ -80,7 +80,7 @@ function Home({
                   console.log("awaiting metamask/web3 confirm result...", result1);
                   console.log(await result1);
                 } else if (Number(utils.formatEther(USDCAllowance)) < Number(utils.formatEther(newPurpose))) {
-                  const result2 = tx(writeContracts.Token6.approve(mitiAddr, approval), update => {
+                  const result2 = tx(writeContracts.USDC.approve(mitiAddr, approval), update => {
                     console.log("📡 Transaction Update:", update);
                     if (update && (update.status === "confirmed" || update.status === 1)) {
                       console.log(" 🍾 Transaction " + update.hash + " finished!");
@@ -124,7 +124,7 @@ function Home({
           <Input
             style={{ marginTop: 20 }}
             onKeyPress={event => {
-              if (!/[^[+-]?\d*(?:[.,]\d*)?$]/.test(event.key)) {
+              if (!/^[+-]?\d*(?:[.,]\d*)?$/.test(event.key)) {
                 event.preventDefault();
               }
             }}

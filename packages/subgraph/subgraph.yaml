@@ -7,7 +7,7 @@ dataSources:
     network: fantom
     source:
       abi: OneTokenV1
-      address: "0xB7A5bd0345EF1Cc5E66bf61BdeC17D2461fBd968"
+      address: "0x76550CCA73f1166C05c56D61B899C5ba4d257220"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -19,7 +19,7 @@ dataSources:
         - TotalUSDCReserves
       abis:
         - name: OneTokenV1
-          file: ./abis/localhost_OneTokenV1.json
+          file: ./abis/fantom_OneTokenV1.json
       eventHandlers:
         - event: Minted(indexed address,indexed address,uint256,uint256,uint256)
           handler: handleMinted

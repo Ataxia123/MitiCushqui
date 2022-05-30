@@ -9,17 +9,13 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
     const USDC = "0x04068da6c83afcfa0e13ba15a6696662335d5b75"
     const indexToken = USDC // USDC
 
-    const interimToken = [ wbtcaddr, wbtcaddr,wFtmAddr,USDC]
-    const wBTCOracle = await deployments.get("wBTCPegOracle")
-    const vBTCOracle = await deployments.get("vBTCPegOracle")
-    const USDCPegOracle = await deployments.get("USDCPeggedOracle") 
-    const Dec_Oracle = await deployments.get("vCompositeOracle")
-    const Dec_Oracle2 = await deployments.get("DecimalOracle")
-    const ETHOracle = await deployments.get("ETHOracle")
-    const FTMOracle = await deployments.get("FTMOracle")
-    const USCOracle = await deployments.get("USDCOracle") 
+    const interimToken = [USDC]
 
-    const oracleList = [ FTMOracle.address, Dec_Oracle.address, USCOracle.address,  Dec_Oracle2.address, ]
+    //const wBTCOracle = await deployments.get("wBTCPegOracle")
+    const COracle = await deployments.get("USDCPeggedOracle")
+    const  vBTCOracle = await deployments.get("wBTCPegOracle")
+
+    const oracleList = [vBTCOracle.address]
   
     const { deployer, dev } = await getNamedAccounts()
   
@@ -35,17 +31,18 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
     }
 
     const 
-        name = "Composite Oracle"
+        name = "Composite Oracle F"
         url = "hhtps://strudel.finance"
 
     if (chainId != 1) { //don't deploy to mainnet
         const 
+         //change to wBTC
             factory = await deployments.get("OneTokenFactory")
             Admin = await ethers.getContractFactory("OneTokenFactory")
             admin = Admin.attach(factory.address)
             description = "vBTC to USDC oracle"
 
-        const oracle = await deploy("vBTCCompositeOracle", { // vBTC:wBTC:ETH:USDC
+        const oracle = await deploy("vCompositeOracle", { // vBTC:wBTC:ETH:USDC
             from: deployer,
             args: [factory.address, description, indexToken, interimToken, oracleList],
             log: true
@@ -54,18 +51,18 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
         if (chainId != 250) { //don't verify contract on localnet
             await hre.run("verify:verify", {
                 address: oracle.address,
-                contract: "contracts/oracle/composite/vBTCCompositeOracle.sol:vBTCCompositeOracle",
+                contract: "contracts/oracle/composite/vCompositeOracle.sol:vCompositeOracle",
                 constructorArguments: [
                     factory.address,
                     description,
-                    indexToken,
+                    USDC,
                     interimToken,
                     oracleList
                 ],
             })
         }
     
-       /*await admin.admitModule(oracle.address, moduleType.oracle, name, url, {
+        /*await admin.admitModule(oracle.address, moduleType.oracle, name, url, {
             from: deployer
         })//*/
     }
@@ -73,5 +70,5 @@ module.exports = async function({ ethers: { getNamedSigner }, getNamedAccounts, 
 
 }
 
-module.exports.tags = ["CompositeOracle","mainnet"]
-module.exports.dependencies = ["oneTokenFactory","vCompositeOracle","vCompositeOracleB","EthOracle","ftmOracle","USDCOracle","USDCPeggedOracle"]
+module.exports.tags = ["vCompositeOracle","mainnet"]
+module.exports.dependencies = ["oneTokenFactory","wBTCPegOracle","vBTCPegOracle"]
