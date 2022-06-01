@@ -1,6 +1,7 @@
 import  {Minter, MinterCounter, RedeemerCounter, TotalMitiSupply, TotalvBTCReserve, TotalUSDCReserve } from "../generated/schema";
 import  {Minted, Redeemed} from "../generated/OneTokenV1/OneTokenV1";
 import { BigInt } from '@graphprotocol/graph-ts';
+import { integer, decimal, DEFAULT_DECIMALS, ZERO_ADDRESS } from '@protofire/subgraph-toolkit'
 
 export function handleMinted(event: Minted): void {
 
@@ -27,9 +28,9 @@ export function handleMinted(event: Minted): void {
     minter.save()
 
     // MitiSupply
-    let mitisupply = TotalMitiSupply.load(event.params.sender.toHex())
+    let mitisupply = TotalMitiSupply.load(event.address.toHex())
     if (mitisupply == null) {
-        mitisupply = new TotalMitiSupply(event.params.sender.toHex())
+        mitisupply = new TotalMitiSupply(event.address.toHex())
         mitisupply.totalSupply = BigInt.fromI32(0)
         mitisupply.totalMinted = BigInt.fromI32(0)
         mitisupply.totalBurned = BigInt.fromI32(0)
@@ -38,23 +39,24 @@ export function handleMinted(event: Minted): void {
     mitisupply.totalMinted = mitisupply.totalMinted + event.params.oneTokens
     mitisupply.save()
 
-    let totalvBTCReserve = TotalvBTCReserve.load(event.params.sender.toHex())
+    let totalvBTCReserve = TotalvBTCReserve.load('singleton')
     if (totalvBTCReserve == null) {
-        totalvBTCReserve = new TotalvBTCReserve(event.params.sender.toHex())
+        totalvBTCReserve = new TotalvBTCReserve('singleton')
         totalvBTCReserve.totalDeposits = BigInt.fromI32(0)
         }
     totalvBTCReserve.totalDeposits = totalvBTCReserve.totalDeposits + event.params.memberTokens
     totalvBTCReserve.save()
 
-    let totalUSDCReserve = TotalUSDCReserve.load(event.params.sender.toHex())
+    let totalUSDCReserve = TotalUSDCReserve.load(event.params.collateral.toHex())
     if (totalUSDCReserve == null) {
-        totalUSDCReserve = new TotalUSDCReserve(event.params.sender.toHex())
+        totalUSDCReserve = new TotalUSDCReserve(event.params.collateral.toHex())
         totalUSDCReserve.totalSupply = BigInt.fromI32(0)
         totalUSDCReserve.totalMinted = BigInt.fromI32(0)
         totalUSDCReserve.totalBurned = BigInt.fromI32(0)
     }
-    totalUSDCReserve.totalSupply = totalUSDCReserve.totalSupply + event.params.collateralTokens
-    totalUSDCReserve.totalMinted = totalUSDCReserve.totalMinted + event.params.collateralTokens
+    let precision = decimal.getPrecision(12)
+    totalUSDCReserve.totalSupply = totalUSDCReserve.totalSupply + (event.params.collateralTokens * precision)
+    totalUSDCReserve.totalMinted = totalUSDCReserve.totalMinted + (event.params.collateralTokens * precision)
     totalUSDCReserve.save()
 } // handleMinted
 
@@ -83,9 +85,9 @@ export function handleRedeemed(event: Redeemed): void {
     minter.save()
 
     // MitiSupply
-    let mitisupply = TotalMitiSupply.load(event.params.sender.toHex())
+    let mitisupply = TotalMitiSupply.load(event.address.toHex())
     if (mitisupply == null) {
-        mitisupply = new TotalMitiSupply(event.params.sender.toHex())
+        mitisupply = new TotalMitiSupply(event.address.toHex())
         mitisupply.totalSupply = BigInt.fromI32(0)
         mitisupply.totalBurned = BigInt.fromI32(0)
     } 
@@ -93,9 +95,9 @@ export function handleRedeemed(event: Redeemed): void {
     mitisupply.totalBurned = mitisupply.totalBurned + event.params.amount
     mitisupply.save()
 
-    let totalUSDCReserve = TotalUSDCReserve.load(event.params.sender.toHex())
+    let totalUSDCReserve = TotalUSDCReserve.load(event.params.collateral.toHex())
     if (totalUSDCReserve == null) {
-        totalUSDCReserve = new TotalUSDCReserve(event.params.sender.toHex())
+        totalUSDCReserve = new TotalUSDCReserve(event.params.collateral.toHex())
         totalUSDCReserve.totalSupply = BigInt.fromI32(0)
         totalUSDCReserve.totalMinted = BigInt.fromI32(0)
         totalUSDCReserve.totalBurned = BigInt.fromI32(0)

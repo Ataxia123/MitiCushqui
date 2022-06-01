@@ -6,7 +6,7 @@ import "graphiql/graphiql.min.css";
 import fetch from "isomorphic-fetch";
 import React, { useState, ComponentProps } from "react";
 import { Address } from "../components";
-import { utils } from "ethers";
+import { utils, BigNumber } from "ethers";
 import { PieChart } from "react-minimal-pie-chart";
 
 const highlight = {
@@ -91,16 +91,16 @@ function Subgraph(props) {
         </Col>
         <Col span={4}>
           {" "}
-          <Statistic title="USDC Reserve Supply" value={t ? utils.formatEther(c) : "..."} />
+          <Statistic title="USDC Reserve Supply" value={c ? utils.formatEther(c) : "..."} />
         </Col>
         <Col span={4}>
-          <Statistic title="vBTC Reserve Supply:" value={t ? utils.formatEther(v) : "..."} />
+          <Statistic title="vBTC Reserve Supply:" value={v ? utils.formatEther(v) : "..."} />
         </Col>
         <Col span={4}>
           <Statistic title="Minting Rate:" value={props.rate ? props.rate : "..."} />
         </Col>
         <Col span={4}>
-          <Statistic title="vBTC Orace:" value={props.oracle ? props.oracle : "..."} />
+          <Statistic title="vBTC Oracle:" value={props.oracle ? props.oracle : "..."} />
         </Col>
       </Row>
       <div style={{ margin: 32, height: 400, border: "1px solid #888888", textAlign: "left" }}>

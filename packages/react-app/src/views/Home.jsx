@@ -39,7 +39,7 @@ function Home({
       </div>
       <div style={{ margin: 32 }}>
         <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
-          <span style={{ marginRight: 8 }}>📝test Miti addr: {mitiAddr}</span>
+          <span style={{ marginRight: 8 }}>📝MitiCushqui addr: {mitiAddr}</span>
           <Input
             style={{ marginTop: 20 }}
             onKeyPress={event => {
@@ -174,7 +174,7 @@ function Home({
         </div>
       </div>
       $M Balance: {myMainnetMitiBalance ? utils.formatEther(myMainnetMitiBalance) : "..."}
-      <div>USDC Balance: {myMainnetUSDCBalance ? utils.formatEther(myMainnetUSDCBalance) : "..."}</div>
+      <div>USDC Balance: {myMainnetUSDCBalance ? utils.formatEther(myMainnetUSDCBalance * 10 ** 12) : "..."}</div>
       <div>vBTC Balance: {myMainnetvBTCBalance ? utils.formatEther(myMainnetvBTCBalance) : "..."}</div>
     </div>
   );

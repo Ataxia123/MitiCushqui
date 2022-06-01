@@ -202,7 +202,7 @@ function App(props) {
       console.log("💵 yourLocalBalance", yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "...");
       console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
       console.log("📝 readContracts", readContracts);
-
+      /*
       console.log("token18 contract on mainnet:", t18 ? t18 : "...");
       console.log("minting ratio:", r ? ethers.utils.formatEther(r[0]) : "...");
       console.log(
@@ -215,7 +215,7 @@ function App(props) {
       );
       //console.log("oneTokenIndex", oneTokenIndex);
       console.log("🔐 writeContracts", writeContracts);
-      console.log("oracle output:", o ? ethers.utils.formatEther(o[0]) : "...");
+      console.log("oracle output:", o ? ethers.utils.formatEther(o[0]) : "...");//*/
     }
   }, [
     mainnetProvider,
@@ -352,7 +352,7 @@ function App(props) {
             */}
 
           <Contract
-            name="wBTCPegOracle"
+            name="vBTCCompositeOracle"
             price={price}
             signer={userSigner}
             provider={localProvider}

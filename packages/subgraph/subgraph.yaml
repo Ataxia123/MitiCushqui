@@ -8,6 +8,7 @@ dataSources:
     source:
       abi: OneTokenV1
       address: "0x76550CCA73f1166C05c56D61B899C5ba4d257220"
+      startBlock: 38175244
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
